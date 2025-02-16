@@ -1,12 +1,15 @@
 package com.example.flight_tracker.dto.flight;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-public class FavoriteFlightInfo {
+@NoArgsConstructor
+@AllArgsConstructor
+public class FlightInfo {
 
-    private String id;
     private String model;
 
     @JsonProperty("flight_number")

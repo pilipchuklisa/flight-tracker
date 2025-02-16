@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Поиск авиарейсов</title>
+    <style>
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-group label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .search-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .search-btn:hover {
+            background-color: #218838;
+        }
+        .flights-container {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .flight-card {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 16px;
+            width: 300px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .flight-card h3 {
+            margin: 0 0 10px;
+        }
+        .add-to-favorites-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px;
+            cursor: pointer;
+            border-radius: 4px;
+            width: 100%;
+        }
+        .add-to-favorites-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<h1 style="text-align: center;">Поиск авиарейсов</h1>
+
+<div class="container">
+    <form action="/api/v1/flights" method="get" id="searchForm">
+        <div class="input-group">
+            <label for="flightNumber">Номер рейса</label>
+            <input type="text" id="flightNumber" name="flight_number" placeholder="Введите номер рейса">
+        </div>
+        <div class="input-group">
+            <label for="depIata">Аэропорт вылета (IATA)</label>
+            <input type="text" id="depIata" name="dep_iata" placeholder="Введите код аэропорта вылета">
+        </div>
+        <div class="input-group">
+            <label for="arrIata">Аэропорт прилета (IATA)</label>
+            <input type="text" id="arrIata" name="arr_iata" placeholder="Введите код аэропорта прилета">
+        </div>
+        <div class="input-group">
+            <label for="depTime">Время вылета</label>
+            <input type="text" id="depTime" name="dep_time" placeholder="Введите время вылета">
+        </div>
+
+        <button type="submit" class="search-btn">Поиск</button>
+    </form>
+</div>
+
+<div class="flights-container" id="flightsContainer"></div>
+
+<script src="/js/search.js" defer></script>
+
+</body>
+</html>

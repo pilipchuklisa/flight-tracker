@@ -1,6 +1,7 @@
 package com.example.flight_tracker.controllers.api;
 
 import com.example.flight_tracker.dto.flight.FavoriteFlightInfo;
+import com.example.flight_tracker.dto.flight.FlightInfo;
 import com.example.flight_tracker.services.FavoriteFlightsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,7 +30,7 @@ public class FavoriteFlightsApiController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
-    public void createFlight(@RequestBody FavoriteFlightInfo info) {
+    public void createFlight(@RequestBody FlightInfo info) {
         favoriteFlightsService.saveFlight(info, "email@gmail.com");
     }
 }

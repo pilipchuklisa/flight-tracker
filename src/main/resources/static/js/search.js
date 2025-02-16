@@ -1,0 +1,83 @@
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("searchForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const params = new URLSearchParams(new FormData(this)).toString();
+
+        fetch(`/api/v1/flights?${params}`)
+            .then(response => response.json())
+            .then(data => {
+                displayFlights(data);
+            })
+            .catch(error => {
+                console.error('Ошибка при выполнении запроса:', error);
+                alert('Произошла ошибка при поиске!');
+            });
+    });
+});
+
+function displayFlights(flights) {
+    const container = document.getElementById("flightsContainer");
+    container.innerHTML = '';
+
+    flights.forEach(flight => {
+        const flightCard = document.createElement("div");
+        flightCard.classList.add("flight-card");
+
+        flightCard.innerHTML = `
+            <h3>${flight.model} (${flight.flight_number})</h3>
+            <p><strong>Откуда:</strong> ${flight.dep_iata} → <strong>Куда:</strong> ${flight.arr_iata}</p>
+            <p><strong>Время вылета:</strong> ${flight.dep_time}</p>
+            <p><strong>Время прилета:</strong> ${flight.arr_time}</p>
+            <p><strong>Фактический вылет:</strong> ${flight.dep_actual || '-'}</p>
+            <p><strong>Фактический прилет:</strong> ${flight.arr_actual || '-'}</p>
+            <p><strong>Продолжительность:</strong> ${flight.duration}</p>
+            <p><strong>Статус:</strong> ${flight.status}</p>
+            <button class="add-to-favorites-btn">Добавить в избранное</button>
+        `;
+
+        const button = flightCard.querySelector(".add-to-favorites-btn");
+        button.addEventListener('click', function() {
+            addToFavorites(flight);
+        });
+
+        container.appendChild(flightCard);
+    });
+}
+
+function addToFavorites(data) {
+    const flightData = {
+        model: data.model || '',
+        flight_number: data.flight_number || '',
+        dep_iata: data.dep_iata || '',
+        arr_iata: data.arr_iata || '',
+        dep_time: data.dep_time || '',
+        arr_time: data.arr_time || '',
+        dep_actual: data.dep_actual || '',
+        arr_actual: data.arr_actual || '',
+        duration: data.duration || '',
+        status: data.status || ''
+    };
+
+    console.log('flightData:', flightData);
+
+    fetch('/api/v1/favorites', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(flightData)
+    })
+    .then(response => {
+        if (response.ok) {
+            alert('Рейс добавлен в избранное!');
+        } else {
+            console.error('Ошибка при добавлении в избранное:', response.statusText);
+            alert('Произошла ошибка при добавлении в избранное!');
+        }
+    })
+    .catch(error => {
+        console.error('Ошибка при выполнении запроса:', error);
+        alert('Произошла ошибка при добавлении в избранное!');
+    });
+}

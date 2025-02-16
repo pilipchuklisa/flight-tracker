@@ -2,6 +2,7 @@ package com.example.flight_tracker.services;
 
 import com.example.flight_tracker.domain.mongo.FavoriteFlight;
 import com.example.flight_tracker.dto.flight.FavoriteFlightInfo;
+import com.example.flight_tracker.dto.flight.FlightInfo;
 import com.example.flight_tracker.repositories.mongo.FavoriteFlightsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -39,7 +40,7 @@ public class FavoriteFlightsService {
         favoriteFlightsRepository.deleteById(id);
     }
 
-    public void saveFlight(FavoriteFlightInfo info, String email) {
+    public void saveFlight(FlightInfo info, String email) {
         FavoriteFlight flight = new FavoriteFlight();
 
         flight.setEmail(email);
