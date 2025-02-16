@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @Document
-public class SavedFlight {
+public class FavoriteFlight {
 
     @Id
     private String id;
