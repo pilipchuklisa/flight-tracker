@@ -1,0 +1,12 @@
+.profile-container {
+    max-width: 500px;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.profile-item {
+    margin-bottom: 20px;
+}
+
