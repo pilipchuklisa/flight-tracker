@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Подтверждение Email</title>
+    <link rel="stylesheet" th:href="@{/css/global/style.css}">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Подтверждение Email</h2>
+        <p>Мы отправили код подтверждения на вашу почту <strong th:text="${email}"></strong>. Введите код ниже:</p>
+
+        <form id="verifyForm">
+            <div class="mb-3">
+                <label for="verificationCode" class="form-label">Код подтверждения</label>
+                <input type="text" id="verificationCode" class="form-control" required>
+            </div>
+
+            <input type="hidden" id="email" th:value="${email}">
+
+            <button type="submit" class="btn btn-success">Подтвердить</button>
+            <button type="button" id="resendCode" class="btn btn-secondary">Отправить код повторно</button>
+        </form>
+    </div>
+
+    <script th:src="@{/js/verify.js}"></script>
+</body>
+</html>

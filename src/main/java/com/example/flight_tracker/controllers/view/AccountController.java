@@ -3,6 +3,8 @@ package com.example.flight_tracker.controllers.view;
 import com.example.flight_tracker.dto.UserDto;
 import com.example.flight_tracker.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +20,12 @@ public class AccountController {
 
     @GetMapping()
     public String showProfile(Model model) {
-        UserDto user = userService.findUserByEmail("email@gmail.com");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+
+        UserDto user = userService.findUserByEmail(email);
         model.addAttribute("user", user);
+
         return "account/profile";
     }
 

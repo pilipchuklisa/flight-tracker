@@ -28,8 +28,19 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/js/**", "/css/**").permitAll()
+                        .requestMatchers("/home").permitAll()
+                        .requestMatchers("/account/**").permitAll()
                         .requestMatchers("/api/v1/auth/**").permitAll()
                         .anyRequest().authenticated())
+//                .formLogin(login -> login
+//                        .loginPage("/account/sign-in")
+//                        .defaultSuccessUrl("/account", true)
+//                )
+//                .logout(logout -> logout
+//                        .logoutUrl("/api/v1/auth/logout")
+//                        .logoutSuccessUrl("/home")
+//                )
                 .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)

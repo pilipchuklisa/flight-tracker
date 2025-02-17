@@ -1,4 +1,4 @@
-package com.example.flight_tracker.api.models.auth;
+package com.example.flight_tracker.dto.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

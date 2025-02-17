@@ -1,11 +1,10 @@
 package com.example.flight_tracker.services;
 
-import com.example.flight_tracker.api.models.auth.AuthenticationRequest;
-import com.example.flight_tracker.api.models.auth.AuthenticationResponse;
-import com.example.flight_tracker.api.models.auth.RegisterRequest;
-import com.example.flight_tracker.api.models.auth.VerifyUserDto;
 import com.example.flight_tracker.domain.mysql.Role;
 import com.example.flight_tracker.domain.mysql.User;
+import com.example.flight_tracker.dto.auth.AuthenticationRequest;
+import com.example.flight_tracker.dto.auth.AuthenticationResponse;
+import com.example.flight_tracker.dto.auth.RegisterRequest;
 import com.example.flight_tracker.exceptions.*;
 import com.example.flight_tracker.repositories.mysql.UserRepository;
 import jakarta.mail.MessagingException;
@@ -32,7 +31,7 @@ public class AuthenticationService {
     public User register(RegisterRequest request) {
         User user = new User();
 
-        user.setUsername(request.getUsername());
+        user.setName(request.getUsername());
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(Role.USER);
@@ -65,8 +64,8 @@ public class AuthenticationService {
         return new AuthenticationResponse(token);
     }
 
-    public void verifyUser(VerifyUserDto input) {
-        Optional<User> optionalUser = userRepository.findByEmail(input.getEmail());
+    public void verifyUser(String email, String code) {
+        Optional<User> optionalUser = userRepository.findByEmail(email);
 
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
@@ -75,7 +74,7 @@ public class AuthenticationService {
                 throw new VerificationCodeExpiredException("Verification code has expired");
             }
 
-            if (user.getVerificationCode().equals(input.getVerificationCode())) {
+            if (user.getVerificationCode().equals(code)) {
                 user.setEnable(true);
                 user.setVerificationCode(null);
                 user.setVerificationCodeExpiresAt(null);
