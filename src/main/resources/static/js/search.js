@@ -59,8 +59,6 @@ function addToFavorites(data) {
         status: data.status || ''
     };
 
-    console.log('flightData:', flightData);
-
     fetch('/api/v1/favorites', {
         method: 'POST',
         headers: {
@@ -69,6 +67,10 @@ function addToFavorites(data) {
         body: JSON.stringify(flightData)
     })
     .then(response => {
+        if (response.status === 401) {
+             window.location.href = '/account/sign-in';
+             return;
+        }
         if (response.ok) {
             alert('Рейс добавлен в избранное!');
         } else {

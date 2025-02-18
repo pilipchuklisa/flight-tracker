@@ -18,7 +18,7 @@ public class AccountController {
 
     private final UserService userService;
 
-    @GetMapping()
+    @GetMapping
     public String showProfile(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();

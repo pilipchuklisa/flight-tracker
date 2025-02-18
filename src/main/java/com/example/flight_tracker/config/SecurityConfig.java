@@ -1,5 +1,6 @@
 package com.example.flight_tracker.config;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,19 +29,24 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/js/**", "/css/**").permitAll()
-                        .requestMatchers("/home").permitAll()
+                        .requestMatchers("/css/**", "/js/**").permitAll()
+                        .requestMatchers("/api/v1/auth/**", "/api/v1/flights").permitAll()
+                        .requestMatchers("/api/v1/favorites", "/api/v1/favorites/**").authenticated()
                         .requestMatchers("/account/**").permitAll()
-                        .requestMatchers("/api/v1/auth/**").permitAll()
+                        .requestMatchers("/account", "/account/favorites").authenticated()
+                        .requestMatchers("/home", "/search").permitAll()
                         .anyRequest().authenticated())
-//                .formLogin(login -> login
-//                        .loginPage("/account/sign-in")
-//                        .defaultSuccessUrl("/account", true)
-//                )
-//                .logout(logout -> logout
-//                        .logoutUrl("/api/v1/auth/logout")
-//                        .logoutSuccessUrl("/home")
-//                )
+                .formLogin(login -> login
+                        .loginPage("/account/sign-in"))
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            if (request.getRequestURI().startsWith("/api/")) {
+                                response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                            } else {
+                                response.sendRedirect("/account/sign-in");
+                            }
+                        })
+                )
                 .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
