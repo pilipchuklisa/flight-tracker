@@ -47,21 +47,10 @@ public class FlightService {
     //TODO: заменить request to flight info to airline fleet
 
     public List<FlightInfo> searchFlights(String flightNumber, String depIata, String arrIata, String depTime) {
-         List<FlightScheduleResponse> scheduleResponses = getDataFromFlightSchedule(flightNumber, depIata,
-                 arrIata, depTime);
-
-         System.out.println("scheduleResponses");
-         scheduleResponses.forEach(System.out::println);
-
+         List<FlightScheduleResponse> scheduleResponses =
+                 getDataFromFlightSchedule(flightNumber, depIata, arrIata, depTime);
          List<FlightInfoRequest> infoRequests = getFlightInfoRequests(scheduleResponses);
-
-        System.out.println("infoRequests");
-        scheduleResponses.forEach(System.out::println);
-
          List<FlightInfoResponse> infoResponses = getDataFromFlightInfo(infoRequests);
-
-        System.out.println("infoResponses");
-        scheduleResponses.forEach(System.out::println);
 
          return getFlightInfo(scheduleResponses, infoResponses);
     }

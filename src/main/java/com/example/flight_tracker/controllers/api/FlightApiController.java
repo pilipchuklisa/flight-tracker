@@ -21,12 +21,6 @@ public class FlightApiController {
                                        @RequestParam(name = "dep_iata") String depIata,
                                        @RequestParam(name = "arr_iata") String arrIata,
                                        @RequestParam(name = "dep_time") String depTime) {
-
-        List<FlightInfo> flightInfos = flightService.searchFlights(flightNumber, depIata, arrIata, depTime);
-
-        System.out.println("flightInfos");
-        flightInfos.forEach(System.out::println);
-
-        return flightInfos;
+        return flightService.searchFlights(flightNumber, depIata, arrIata, depTime);
     }
 }
