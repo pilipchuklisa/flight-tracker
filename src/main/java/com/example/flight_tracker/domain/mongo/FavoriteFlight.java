@@ -12,12 +12,14 @@ public class FavoriteFlight {
     private String id;
 
     private String email;
+    private String model;
     private String flightNumber;
     private String depIata;
     private String arrIata;
     private String depTime;
-    private String status;
+    private String arrTime;
     private String depActual;
     private String arrActual;
-    private String model;
+    private Integer duration;
+    private String status;
 }

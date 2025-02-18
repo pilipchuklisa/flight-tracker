@@ -15,7 +15,7 @@ public class UserService {
 
     public UserDto findUserByEmail(String email) {
         User user = userRepository.findByEmail(email).orElseThrow(
-                () -> new ResourceNotFoundException("User not found")
+                () -> new ResourceNotFoundException("User %s not found".formatted(email))
         );
 
         UserDto userDto = new UserDto();

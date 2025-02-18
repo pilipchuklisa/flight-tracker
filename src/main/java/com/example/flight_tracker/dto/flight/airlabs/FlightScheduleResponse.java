@@ -1,13 +1,16 @@
-package com.example.flight_tracker.dto.flight;
+package com.example.flight_tracker.dto.flight.airlabs;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class FavoriteFlightInfo {
+public class FlightScheduleResponse {
 
-    private String id;
-    private String model;
+    @JsonProperty("flight_iata")
+    private String flightIata;
+
+    @JsonProperty("flight_icao")
+    private String flightIcao;
 
     @JsonProperty("flight_number")
     private String flightNumber;
@@ -30,6 +33,9 @@ public class FavoriteFlightInfo {
     @JsonProperty("arr_actual")
     private String arrActual;
 
+    @JsonProperty("duration")
     private Integer duration;
+
+    @JsonProperty("status")
     private String status;
 }

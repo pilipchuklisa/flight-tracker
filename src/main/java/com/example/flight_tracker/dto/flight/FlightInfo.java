@@ -1,13 +1,9 @@
 package com.example.flight_tracker.dto.flight;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class FlightInfo {
 
     private String model;
@@ -33,6 +29,6 @@ public class FlightInfo {
     @JsonProperty("arr_actual")
     private String arrActual;
 
-    private String duration;
+    private Integer duration;
     private String status;
 }
