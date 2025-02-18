@@ -8,12 +8,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 const card = document.createElement("div");
                 card.classList.add("card");
                 card.innerHTML = `
-                    <h3>${flight.model} (${flight.flightNumber})</h3>
-                    <p><strong>Откуда:</strong> ${flight.depIata} → <strong>Куда:</strong> ${flight.arrIata}</p>
-                    <p><strong>Время вылета:</strong> ${flight.depTime}</p>
-                    <p><strong>Время прилета:</strong> ${flight.arrTime}</p>
-                    <p><strong>Фактический вылет:</strong> ${flight.depActual || '-'}</p>
-                    <p><strong>Фактический прилет:</strong> ${flight.arrActual || '-'}</p>
+                    <h3>${flight.model} (${flight.flight_number})</h3>
+                    <p><strong>Откуда:</strong> ${flight.dep_iata} → <strong>Куда:</strong> ${flight.arr_iata}</p>
+                    <p><strong>Время вылета:</strong> ${flight.dep_time}</p>
+                    <p><strong>Время прилета:</strong> ${flight.arr_time}</p>
+                    <p><strong>Фактический вылет:</strong> ${flight.dep_actual || '-'}</p>
+                    <p><strong>Фактический прилет:</strong> ${flight.arr_actual || '-'}</p>
                     <p><strong>Продолжительность:</strong> ${flight.duration}</p>
                     <p><strong>Статус:</strong> ${flight.status}</p>
                     <button class="delete-btn" onclick="removeFromFavorites('${flight.id}')">Удалить</button>
