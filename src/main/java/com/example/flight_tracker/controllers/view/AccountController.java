@@ -1,6 +1,6 @@
 package com.example.flight_tracker.controllers.view;
 
-import com.example.flight_tracker.dto.UserDto;
+import com.example.flight_tracker.dto.user.UserDto;
 import com.example.flight_tracker.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;

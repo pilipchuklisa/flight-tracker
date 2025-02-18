@@ -1,7 +1,7 @@
 package com.example.flight_tracker.services;
 
 import com.example.flight_tracker.domain.mysql.User;
-import com.example.flight_tracker.dto.UserDto;
+import com.example.flight_tracker.dto.user.UserDto;
 import com.example.flight_tracker.exceptions.ResourceNotFoundException;
 import com.example.flight_tracker.repositories.mysql.UserRepository;
 import lombok.RequiredArgsConstructor;

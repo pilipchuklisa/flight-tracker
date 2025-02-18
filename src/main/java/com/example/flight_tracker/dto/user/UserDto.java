@@ -1,4 +1,4 @@
-package com.example.flight_tracker.dto;
+package com.example.flight_tracker.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

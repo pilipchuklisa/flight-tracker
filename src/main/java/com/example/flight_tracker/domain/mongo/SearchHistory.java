@@ -6,20 +6,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @Document
-public class FavoriteFlight {
+public class SearchHistory {
 
     @Id
     private String id;
 
     private String email;
-    private String model;
     private String flightNumber;
     private String depIata;
     private String arrIata;
     private String depTime;
-    private String arrTime;
-    private String depActual;
-    private String arrActual;
-    private Integer duration;
-    private String status;
 }
