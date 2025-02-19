@@ -22,8 +22,6 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private static final String AUTH_HEADER_START = "Bearer ";
-
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
 

@@ -31,9 +31,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/css/**", "/js/**").permitAll()
                         .requestMatchers("/api/v1/auth/**", "/api/v1/flights").permitAll()
-                        .requestMatchers("/api/v1/favorites", "/api/v1/favorites/**").authenticated()
-                        .requestMatchers("/account/**").permitAll()
-                        .requestMatchers("/account", "/account/favorites").authenticated()
+                        .requestMatchers("/api/v1/favorites/**").authenticated()
+                        .requestMatchers("/account/sign-in", "/account/sign-up", "/account/verify").permitAll()
+                        .requestMatchers("/account", "/favorites").authenticated()
                         .requestMatchers("/home", "/search").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(login -> login
