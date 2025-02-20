@@ -22,7 +22,12 @@
 
     <div class="container" id="history-container">
         <div id="history-list">
-            <div th:each="history : ${histories}" class="card">
+            <div th:each="history : ${histories}" class="card"
+                 th:data-flight-number="${history.flightNumber}"
+                 th:data-dep-iata="${history.depIata}"
+                 th:data-arr-iata="${history.arrIata}"
+                 th:data-dep-time="${history.depTime}"
+                 onclick="redirectToSearch(this)">
                 <p><strong>Номер рейса:</strong> <span th:text="${history.flightNumber}">Номер рейса</span></p>
                 <p><strong>Откуда:</strong> <span th:text="${history.depIata}">Откуда</span> → <strong>Куда:</strong> <span th:text="${history.arrIata}">Куда</span></p>
                 <p><strong>Дата:</strong> <span th:text="${history.depTime}">Дата</span></p>

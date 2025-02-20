@@ -1,14 +1,26 @@
 document.addEventListener("DOMContentLoaded", function() {
+
+    const urlParams = new URLSearchParams(window.location.search);
+
+    const flightNumber = urlParams.get("flight_number") || "";
+    const depIata = urlParams.get("dep_iata") || "";
+    const arrIata = urlParams.get("arr_iata") || "";
+    const depTime = urlParams.get("dep_time") || "";
+
+    if (flightNumber) document.getElementById("flightNumber").value = flightNumber;
+    if (depIata) document.getElementById("depIata").value = depIata;
+    if (arrIata) document.getElementById("arrIata").value = arrIata;
+    if (depTime) document.getElementById("depTime").value = depTime;
+
     document.getElementById("searchForm").addEventListener("submit", function(event) {
         event.preventDefault();
 
         const params = new URLSearchParams(new FormData(this)).toString();
 
-        console.log(`/api/v1/flights?${params}`)
-
         fetch(`/api/v1/flights?${params}`)
             .then(response => response.json())
             .then(data => {
+                saveSearchHistory(params);
                 displayFlights(data);
             })
             .catch(error => {
@@ -84,4 +96,20 @@ function addToFavorites(data) {
         console.error('Ошибка при выполнении запроса:', error);
         alert('Произошла ошибка при добавлении в избранное!');
     });
+}
+
+function saveSearchHistory(params) {
+    fetch("/api/v1/histories", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        redirect: "manual",
+        body: JSON.stringify(Object.fromEntries(new URLSearchParams(params))),
+    })
+    .then(response => {
+        if (response.ok) {
+            alert('История поиска успешно сохранена!');
+        }
+    })
+    .catch(error => console.error("Ошибка сохранения истории:", error));
 }

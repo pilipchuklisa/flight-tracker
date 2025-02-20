@@ -38,3 +38,19 @@ function checkHistory() {
         deleteAllButton.style.display = "block";
     }
 }
+
+function redirectToSearch(card) {
+    const flightNumber = card.getAttribute("data-flight-number");
+    const depIata = card.getAttribute("data-dep-iata");
+    const arrIata = card.getAttribute("data-arr-iata");
+    const depTime = card.getAttribute("data-dep-time");
+
+    const params = new URLSearchParams({
+        flight_number: flightNumber || '',
+        dep_iata: depIata || '',
+        arr_iata: arrIata || '',
+        dep_time: depTime || ''
+    });
+
+    window.location.href = `/search?${params.toString()}`;
+}
