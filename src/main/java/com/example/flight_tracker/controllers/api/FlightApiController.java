@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -21,6 +22,7 @@ public class FlightApiController {
                                        @RequestParam(name = "dep_iata") String depIata,
                                        @RequestParam(name = "arr_iata") String arrIata,
                                        @RequestParam(name = "dep_time") String depTime) {
-        return flightService.searchFlights(flightNumber, depIata, arrIata, depTime);
+//        return flightService.searchFlights(flightNumber, depIata, arrIata, depTime);
+        return new ArrayList<>();
     }
 }

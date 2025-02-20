@@ -5,7 +5,39 @@
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
+.history-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 600px;
+    margin: 0 auto;
+}
 
+#history-list {
+    width: 100%; /* Занимает всю ширину контейнера */
+}
+
+.card {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.delete-btn {
+    background: red;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+#delete-all-history {
+    width: 100%;
+    max-width: 200px;
+}
 .profile-item {
     margin-bottom: 20px;
 }

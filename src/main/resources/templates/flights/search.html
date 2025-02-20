@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -90,7 +90,8 @@
         </div>
         <div class="input-group">
             <label for="depTime">Время вылета</label>
-            <input type="text" id="depTime" name="dep_time" placeholder="Введите время вылета">
+            <input type="datetime-local" id="depTime" name="dep_time"
+                   th:value="${dep_time}" pattern="yyyy-MM-dd HH:mm" required>
         </div>
 
         <button type="submit" class="search-btn">Поиск</button>

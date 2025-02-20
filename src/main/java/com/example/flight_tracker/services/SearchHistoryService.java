@@ -21,6 +21,7 @@ public class SearchHistoryService {
                 .stream()
                 .map(history -> {
                     SearchHistoryDto dto = new SearchHistoryDto();
+                    dto.setId(history.getId());
                     dto.setFlightNumber(history.getFlightNumber());
                     dto.setDepIata(history.getDepIata());
                     dto.setArrIata(history.getArrIata());

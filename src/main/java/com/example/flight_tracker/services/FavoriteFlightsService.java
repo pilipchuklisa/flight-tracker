@@ -40,7 +40,7 @@ public class FavoriteFlightsService {
         favoriteFlightsRepository.deleteById(id);
     }
 
-    public FavoriteFlight  saveFlight(FlightInfo info, String email) {
+    public FavoriteFlight saveFlight(FlightInfo info, String email) {
         FavoriteFlight flight = new FavoriteFlight();
 
         flight.setEmail(email);
