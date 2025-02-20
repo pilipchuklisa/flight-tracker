@@ -44,8 +44,6 @@ public class FlightService {
         public static final String FLIGHT_IATA_PARAM = "arr_iata";
     }
 
-    //TODO: заменить request to flight info to airline fleet
-
     public List<FlightInfo> searchFlights(String flightNumber, String depIata, String arrIata, String depTime) {
          List<FlightScheduleResponse> scheduleResponses =
                  getDataFromFlightSchedule(flightNumber, depIata, arrIata, depTime);

@@ -3,45 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <title>Профиль</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/global/style.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/profile/profile.css}">
+    <link rel="stylesheet" type="text/css" href="/css/global/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/profile/profile.css">
 </head>
-    <body>
-    <div class="profile-container" th:object="${user}">
-        <h2>Профиль</h2>
-        <div class="profile-item">
-            <span>Имя</span> <span th:text="${user.username}"></span>
+<body>
+
+<a href="/home" class="back-btn">Назад на главную</a>
+
+<div class="profile-container" th:object="${user}">
+    <h2>Профиль</h2>
+    <div class="profile-item">
+        <span>Имя</span> <span th:text="${user.username}"></span>
+    </div>
+    <div class="profile-item">
+        <span>Почта</span> <span th:text="${user.email}"></span>
+    </div>
+    <button id="logout-btn" type="submit">Выйти из аккаунта</button>
+</div>
+
+<h2>История поиска</h2>
+
+<div class="container" id="history-container">
+    <div id="history-list">
+        <div th:each="history : ${histories}" class="card"
+             th:data-flight-number="${history.flightNumber}"
+             th:data-dep-iata="${history.depIata}"
+             th:data-arr-iata="${history.arrIata}"
+             th:data-dep-time="${history.depTime}"
+             th:data-id="${history.id}"
+             onclick="redirectToSearch(this)">
+            <p><strong>Номер рейса:</strong> <span th:text="${history.flightNumber}">Номер рейса</span></p>
+            <p><strong>Откуда:</strong> <span th:text="${history.depIata}">Откуда</span> → <strong>Куда:</strong> <span th:text="${history.arrIata}">Куда</span></p>
+            <p><strong>Дата:</strong> <span th:text="${history.depTime}">Дата</span></p>
+            <button class="delete-btn" onclick="event.stopPropagation(); removeFromHistory(this.closest('.card').dataset.id)">Удалить</button>
         </div>
-        <div class="profile-item">
-            <span>Почта</span> <span th:text="${user.email}"></span>
-        </div>
-        <button id="logout-btn" type="submit">Выйти из аккаунта</button>
     </div>
 
-    <h2>История поиска</h2>
 
-    <div class="container" id="history-container">
-        <div id="history-list">
-            <div th:each="history : ${histories}" class="card"
-                 th:data-flight-number="${history.flightNumber}"
-                 th:data-dep-iata="${history.depIata}"
-                 th:data-arr-iata="${history.arrIata}"
-                 th:data-dep-time="${history.depTime}"
-                 onclick="redirectToSearch(this)">
-                <p><strong>Номер рейса:</strong> <span th:text="${history.flightNumber}">Номер рейса</span></p>
-                <p><strong>Откуда:</strong> <span th:text="${history.depIata}">Откуда</span> → <strong>Куда:</strong> <span th:text="${history.arrIata}">Куда</span></p>
-                <p><strong>Дата:</strong> <span th:text="${history.depTime}">Дата</span></p>
-                <button class="delete-btn" onclick="removeFromHistory('${history.id}')">Удалить</button>
-            </div>
-        </div>
+    <p id="no-history" style="display: none;">Ничего не найдено</p>
 
-        <p id="no-history" style="display: none;">Ничего не найдено</p>
+    <button class="delete-btn" id="delete-all-history">Удалить всю историю</button>
+</div>
 
-        <button class="delete-btn" id="delete-all-history">Удалить всю историю</button>
-    </div>
+<script src="/js/logout.js"></script>
+<script src="/js/search-history.js"></script>
 
-    <script src="/js/logout.js"></script>
-    <script src="/js/search-history.js"></script>
-
-    </body>
+</body>
 </html>

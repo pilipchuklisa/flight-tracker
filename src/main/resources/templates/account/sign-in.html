@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Авторизация</title>
-    <link rel="stylesheet" href="@{/css/global/style.css}">
+    <link rel="stylesheet" href="/css/global/style.css">
 </head>
 <body>
     <div class="container mt-5">
@@ -20,7 +20,8 @@
                 <input type="password" id="password" class="form-control" required>
             </div>
 
-            <button type="submit" class="btn btn-primary">Войти</button>
+            <button type="submit" class="back-btn">Войти</button>
+            <a href="/account/sign-up" class="back-btn">Зарегистрироваться</a>
         </form>
 
         <div id="error-message" class="text-danger mt-3" style="display: none;"></div>

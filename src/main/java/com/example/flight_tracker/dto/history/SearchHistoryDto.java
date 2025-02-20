@@ -12,15 +12,15 @@ public class SearchHistoryDto {
 
     private String id;
 
-    @JsonProperty(namespace = "flight_number")
+    @JsonProperty("flight_number")
     private String flightNumber;
 
-    @JsonProperty(namespace = "dep_iata")
+    @JsonProperty("dep_iata")
     private String depIata;
 
-    @JsonProperty(namespace = "arr_iata")
+    @JsonProperty("arr_iata")
     private String arrIata;
 
-    @JsonProperty(namespace = "dep_time")
+    @JsonProperty("dep_time")
     private String depTime;
 }

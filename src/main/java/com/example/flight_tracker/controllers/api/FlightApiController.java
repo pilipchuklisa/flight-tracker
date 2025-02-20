@@ -22,7 +22,7 @@ public class FlightApiController {
                                        @RequestParam(name = "dep_iata") String depIata,
                                        @RequestParam(name = "arr_iata") String arrIata,
                                        @RequestParam(name = "dep_time") String depTime) {
-//        return flightService.searchFlights(flightNumber, depIata, arrIata, depTime);
-        return new ArrayList<>();
+    //    return flightService.searchFlights(flightNumber, depIata, arrIata, depTime);
+        return new ArrayList<>(List.of(new FlightInfo()));
     }
 }

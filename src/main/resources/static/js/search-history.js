@@ -14,10 +14,12 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 function removeFromHistory(id) {
+    event.stopPropagation();
+    console.log(id);
     fetch(`/api/v1/histories/${id}`, { method: "DELETE" })
         .then(response => {
             if (response.ok) {
-                document.querySelector(`button[onclick="removeFromHistory('${id}')"]`).parentElement.remove();
+                document.querySelector(`div[data-id="${id}"]`).remove();
                 checkHistory();
             }
         })

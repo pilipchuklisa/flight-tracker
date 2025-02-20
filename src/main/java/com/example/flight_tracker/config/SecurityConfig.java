@@ -35,13 +35,14 @@ public class SecurityConfig {
                         .requestMatchers("/account/sign-in", "/account/sign-up", "/account/verify").permitAll()
                         .requestMatchers("/api/v1/histories/**").authenticated()
                         .requestMatchers("/account", "/favorites").authenticated()
-                        .requestMatchers("/home", "/search").permitAll()
+                        .requestMatchers("/", "/home", "/search").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(login -> login
                         .loginPage("/account/sign-in"))
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint((request, response, authException) -> {
-                            if (request.getRequestURI().startsWith("/api/")) {
+                            if (request.getRequestURI().startsWith("/api/") ||
+                                    request.getRequestURI().equals("/error")) {
                                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
                             } else {
                                 response.sendRedirect("/account/sign-in");

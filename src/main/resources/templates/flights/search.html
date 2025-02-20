@@ -68,11 +68,26 @@
         .add-to-favorites-btn:hover {
             background-color: #0056b3;
         }
+        .back-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        .back-btn:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
 
 <h1 style="text-align: center;">Поиск авиарейсов</h1>
+
+<a href="/home" class="back-btn">Назад на главную</a>
 
 <div class="container">
     <form action="/api/v1/flights" method="get" id="searchForm">

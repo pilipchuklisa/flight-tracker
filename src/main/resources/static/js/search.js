@@ -103,13 +103,7 @@ function saveSearchHistory(params) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-        redirect: "manual",
         body: JSON.stringify(Object.fromEntries(new URLSearchParams(params))),
-    })
-    .then(response => {
-        if (response.ok) {
-            alert('История поиска успешно сохранена!');
-        }
     })
     .catch(error => console.error("Ошибка сохранения истории:", error));
 }
