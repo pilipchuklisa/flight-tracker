@@ -1,6 +1,6 @@
 package com.example.flight_tracker.controllers.api;
 
-import com.example.flight_tracker.dto.flight.FlightInfo;
+import com.example.flight_tracker.dto.flight.FlightDto;
 import com.example.flight_tracker.services.FlightService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -51,17 +51,17 @@ class FlightApiControllerTest {
 
     @Test
     void getFlights() throws Exception {
-        FlightInfo flightInfo = new FlightInfo();
-        flightInfo.setFlightNumber(FLIGHT_NUMBER);
-        flightInfo.setDepIata(DEP_IATA);
-        flightInfo.setArrIata(ARR_IATA);
-        flightInfo.setDepTime(DEP_TIME);
+        FlightDto flightDto = new FlightDto();
+        flightDto.setFlightNumber(FLIGHT_NUMBER);
+        flightDto.setDepIata(DEP_IATA);
+        flightDto.setArrIata(ARR_IATA);
+        flightDto.setDepTime(DEP_TIME);
 
-        List<FlightInfo> flightInfos = new ArrayList<>();
-        flightInfos.add(flightInfo);
+        List<FlightDto> flightDtos = new ArrayList<>();
+        flightDtos.add(flightDto);
 
         Mockito.when(flightService
-                        .searchFlights(anyString(), anyString(), anyString(), anyString())).thenReturn(flightInfos);
+                        .searchFlights(anyString(), anyString(), anyString(), anyString())).thenReturn(flightDtos);
 
         mockMvc.perform(MockMvcRequestBuilders.get(API_URL)
                         .contentType(MediaType.APPLICATION_JSON)

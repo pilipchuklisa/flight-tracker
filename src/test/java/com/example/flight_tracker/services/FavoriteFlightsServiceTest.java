@@ -1,8 +1,8 @@
 package com.example.flight_tracker.services;
 
 import com.example.flight_tracker.domain.mongo.FavoriteFlight;
-import com.example.flight_tracker.dto.flight.FavoriteFlightInfo;
-import com.example.flight_tracker.dto.flight.FlightInfo;
+import com.example.flight_tracker.dto.flight.FavoriteFlightDto;
+import com.example.flight_tracker.dto.flight.FlightDto;
 import com.example.flight_tracker.repositories.mongo.FavoriteFlightsRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -67,7 +67,7 @@ class FavoriteFlightsServiceTest {
 
         Mockito.when(favoriteFlightsRepository.findAllByEmail(anyString())).thenReturn(favoriteFlights);
 
-        List<FavoriteFlightInfo> foundFavoriteFlights = favoriteFlightsService.getAllFlightsByEmail(EMAIL);
+        List<FavoriteFlightDto> foundFavoriteFlights = favoriteFlightsService.getAllFlightsByEmail(EMAIL);
 
         Assertions.assertEquals(favoriteFlights.size(), foundFavoriteFlights.size());
         Mockito.verify(favoriteFlightsRepository, times(1)).findAllByEmail(anyString());
@@ -82,23 +82,23 @@ class FavoriteFlightsServiceTest {
 
     @Test
     void saveFlight() {
-        FlightInfo flightInfo = new FlightInfo();
-        flightInfo.setModel(MODEL);
-        flightInfo.setFlightNumber(FLIGHT_NUMBER);
-        flightInfo.setDepIata(DEP_IATA);
-        flightInfo.setArrIata(ARR_IATA);
-        flightInfo.setDepTime(DEP_TIME);
-        flightInfo.setArrTime(ARR_TIME);
-        flightInfo.setDepActual(DEP_ACTUAL);
-        flightInfo.setArrActual(ARR_ACTUAL);
-        flightInfo.setDuration(DURATION);
-        flightInfo.setStatus(ON_TIME);
+        FlightDto flightDto = new FlightDto();
+        flightDto.setModel(MODEL);
+        flightDto.setFlightNumber(FLIGHT_NUMBER);
+        flightDto.setDepIata(DEP_IATA);
+        flightDto.setArrIata(ARR_IATA);
+        flightDto.setDepTime(DEP_TIME);
+        flightDto.setArrTime(ARR_TIME);
+        flightDto.setDepActual(DEP_ACTUAL);
+        flightDto.setArrActual(ARR_ACTUAL);
+        flightDto.setDuration(DURATION);
+        flightDto.setStatus(ON_TIME);
 
         favoriteFlight.setId(ID);
 
         Mockito.when(favoriteFlightsRepository.save(any())).thenReturn(favoriteFlight);
 
-        FavoriteFlight savedFavoriteFlight = favoriteFlightsService.saveFlight(flightInfo, EMAIL);
+        FavoriteFlight savedFavoriteFlight = favoriteFlightsService.saveFlight(flightDto, EMAIL);
 
         Assertions.assertSame(favoriteFlight.getId(), savedFavoriteFlight.getId());
         Assertions.assertSame(favoriteFlight.getEmail(), savedFavoriteFlight.getEmail());

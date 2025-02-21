@@ -4,9 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class FavoriteFlightInfo {
+public class FlightDto {
 
-    private String id;
     private String model;
 
     @JsonProperty("flight_number")

@@ -1,7 +1,7 @@
 package com.example.flight_tracker.controllers.api;
 
-import com.example.flight_tracker.dto.flight.FavoriteFlightInfo;
-import com.example.flight_tracker.dto.flight.FlightInfo;
+import com.example.flight_tracker.dto.flight.FavoriteFlightDto;
+import com.example.flight_tracker.dto.flight.FlightDto;
 import com.example.flight_tracker.services.FavoriteFlightsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,7 +20,7 @@ public class FavoriteFlightsApiController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<FavoriteFlightInfo> getAllFlights() {
+    public List<FavoriteFlightDto> getAllFlights() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
 
@@ -35,7 +35,7 @@ public class FavoriteFlightsApiController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
-    public void createFlight(@RequestBody FlightInfo info) {
+    public void createFlight(@RequestBody FlightDto info) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
 

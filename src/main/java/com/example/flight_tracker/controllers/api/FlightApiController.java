@@ -1,12 +1,11 @@
 package com.example.flight_tracker.controllers.api;
 
-import com.example.flight_tracker.dto.flight.FlightInfo;
+import com.example.flight_tracker.dto.flight.FlightDto;
 import com.example.flight_tracker.services.FlightService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -18,11 +17,10 @@ public class FlightApiController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<FlightInfo> getFlights(@RequestParam(name = "flight_number") String flightNumber,
-                                       @RequestParam(name = "dep_iata") String depIata,
-                                       @RequestParam(name = "arr_iata") String arrIata,
-                                       @RequestParam(name = "dep_time") String depTime) {
-    //    return flightService.searchFlights(flightNumber, depIata, arrIata, depTime);
-        return new ArrayList<>(List.of(new FlightInfo()));
+    public List<FlightDto> getFlights(@RequestParam(name = "flight_number") String flightNumber,
+                                      @RequestParam(name = "dep_iata") String depIata,
+                                      @RequestParam(name = "arr_iata") String arrIata,
+                                      @RequestParam(name = "dep_time") String depTime) {
+        return flightService.searchFlights(flightNumber, depIata, arrIata, depTime);
     }
 }

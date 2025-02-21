@@ -1,6 +1,6 @@
 package com.example.flight_tracker.controllers.view;
 
-import com.example.flight_tracker.dto.flight.FavoriteFlightInfo;
+import com.example.flight_tracker.dto.flight.FavoriteFlightDto;
 import com.example.flight_tracker.services.FavoriteFlightsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -24,7 +24,7 @@ public class FavoriteFlightsController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
 
-        List<FavoriteFlightInfo> flights = favoriteFlightsService.getAllFlightsByEmail(email);
+        List<FavoriteFlightDto> flights = favoriteFlightsService.getAllFlightsByEmail(email);
         model.addAttribute("flights", flights);
         return "favorites";
     }

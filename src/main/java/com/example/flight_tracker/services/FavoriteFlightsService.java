@@ -1,8 +1,8 @@
 package com.example.flight_tracker.services;
 
 import com.example.flight_tracker.domain.mongo.FavoriteFlight;
-import com.example.flight_tracker.dto.flight.FavoriteFlightInfo;
-import com.example.flight_tracker.dto.flight.FlightInfo;
+import com.example.flight_tracker.dto.flight.FavoriteFlightDto;
+import com.example.flight_tracker.dto.flight.FlightDto;
 import com.example.flight_tracker.repositories.mongo.FavoriteFlightsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,12 +16,12 @@ public class FavoriteFlightsService {
 
     private final FavoriteFlightsRepository favoriteFlightsRepository;
 
-    public List<FavoriteFlightInfo> getAllFlightsByEmail(String email) {
+    public List<FavoriteFlightDto> getAllFlightsByEmail(String email) {
         List<FavoriteFlight> flights = favoriteFlightsRepository.findAllByEmail(email);
 
         return flights.stream()
                 .map(f -> {
-                    FavoriteFlightInfo info = new FavoriteFlightInfo();
+                    FavoriteFlightDto info = new FavoriteFlightDto();
                     info.setId(f.getId());
                     info.setFlightNumber(f.getFlightNumber());
                     info.setDepIata(f.getDepIata());
@@ -40,7 +40,7 @@ public class FavoriteFlightsService {
         favoriteFlightsRepository.deleteById(id);
     }
 
-    public FavoriteFlight saveFlight(FlightInfo info, String email) {
+    public FavoriteFlight saveFlight(FlightDto info, String email) {
         FavoriteFlight flight = new FavoriteFlight();
 
         flight.setEmail(email);

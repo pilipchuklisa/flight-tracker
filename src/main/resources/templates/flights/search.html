@@ -97,16 +97,16 @@
         </div>
         <div class="input-group">
             <label for="depIata">Аэропорт вылета (IATA)</label>
-            <input type="text" id="depIata" name="dep_iata" placeholder="Введите код аэропорта вылета">
+            <input type="text" id="depIata" name="dep_iata" placeholder="Введите код аэропорта вылета" required>
         </div>
         <div class="input-group">
             <label for="arrIata">Аэропорт прилета (IATA)</label>
-            <input type="text" id="arrIata" name="arr_iata" placeholder="Введите код аэропорта прилета">
+            <input type="text" id="arrIata" name="arr_iata" placeholder="Введите код аэропорта прилета" required>
         </div>
         <div class="input-group">
             <label for="depTime">Время вылета</label>
             <input type="datetime-local" id="depTime" name="dep_time"
-                   th:value="${dep_time}" pattern="yyyy-MM-dd HH:mm" required>
+                   th:value="${dep_time}" pattern="yyyy-MM-dd HH:mm">
         </div>
 
         <button type="submit" class="search-btn">Поиск</button>
