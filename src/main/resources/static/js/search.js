@@ -52,8 +52,13 @@ function displayFlights(flights) {
             <button class="add-to-favorites-btn">Добавить в избранное</button>
         `;
 
+        flightCard.addEventListener('click', function() {
+            viewFlightDetails(flight);
+        });
+
         const button = flightCard.querySelector(".add-to-favorites-btn");
         button.addEventListener('click', function() {
+            event.stopPropagation();
             addToFavorites(flight);
         });
 
@@ -62,25 +67,29 @@ function displayFlights(flights) {
 }
 
 function addToFavorites(data) {
-    const flightData = {
-        model: data.model || '',
-        flight_number: data.flight_number || '',
-        dep_iata: data.dep_iata || '',
-        arr_iata: data.arr_iata || '',
-        dep_time: data.dep_time || '',
-        arr_time: data.arr_time || '',
-        dep_actual: data.dep_actual || '',
-        arr_actual: data.arr_actual || '',
-        duration: data.duration || '',
-        status: data.status || ''
-    };
+    let jsonData;
+    if (typeof data === 'string') {
+        try {
+            jsonData = JSON.parse(data);
+        } catch (e) {
+            console.error('Invalid JSON string:', e);
+            return;
+        }
+    } else {
+        jsonData = data;
+    }
+
+    const updateData = Object.keys(jsonData).reduce((acc, key) => {
+        acc[key] = jsonData[key] === null ? '' : jsonData[key];
+        return acc;
+    }, {});
 
     fetch('/api/v1/favorites', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(flightData)
+        body: JSON.stringify(updateData)
     })
     .then(response => {
         if (response.status === 401) {
@@ -98,6 +107,15 @@ function addToFavorites(data) {
         console.error('Ошибка при выполнении запроса:', error);
         alert('Произошла ошибка при добавлении в избранное!');
     });
+}
+
+function viewFlightDetails(flight) {
+    const updatedFlight = Object.keys(flight).reduce((acc, key) => {
+        acc[key] = flight[key] === null ? '' : flight[key];
+        return acc;
+    }, {});
+    const params = new URLSearchParams(updatedFlight);
+    window.location.href = `/flight-details?${params.toString()}`;
 }
 
 function saveSearchHistory(params) {
