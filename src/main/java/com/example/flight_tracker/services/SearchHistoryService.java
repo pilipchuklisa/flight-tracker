@@ -3,6 +3,7 @@ package com.example.flight_tracker.services;
 import com.example.flight_tracker.domain.mongo.SearchHistory;
 import com.example.flight_tracker.dto.flight.FlightSearchRequest;
 import com.example.flight_tracker.dto.history.SearchHistoryDto;
+import com.example.flight_tracker.mapper.SearchHistoryMapper;
 import com.example.flight_tracker.repositories.mongo.SearchHistoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,19 +16,12 @@ import java.util.stream.Collectors;
 public class SearchHistoryService {
 
     private final SearchHistoryRepository searchHistoryRepository;
+    private final SearchHistoryMapper searchHistoryMapper;
 
     public List<SearchHistoryDto> getAllByEmail(String email) {
         return searchHistoryRepository.findAllByEmail(email)
                 .stream()
-                .map(history -> {
-                    SearchHistoryDto dto = new SearchHistoryDto();
-                    dto.setId(history.getId());
-                    dto.setFlightNumber(history.getFlightNumber());
-                    dto.setDepIata(history.getDepIata());
-                    dto.setArrIata(history.getArrIata());
-                    dto.setDepTime(history.getDepTime());
-                    return dto;
-                })
+                .map(searchHistoryMapper::searchHistoryToSearchHistoryDto)
                 .collect(Collectors.toList());
     }
 
@@ -40,13 +34,8 @@ public class SearchHistoryService {
     }
 
     public SearchHistory save(FlightSearchRequest request, String email) {
-        SearchHistory searchHistory = new SearchHistory();
-
+        SearchHistory searchHistory = searchHistoryMapper.flightSearchToSearchHistory(request);
         searchHistory.setEmail(email);
-        searchHistory.setFlightNumber(request.getFlightNumber());
-        searchHistory.setDepIata(request.getDepIata());
-        searchHistory.setArrIata(request.getArrIata());
-        searchHistory.setDepTime(request.getDepTime());
 
         return searchHistoryRepository.save(searchHistory);
     }

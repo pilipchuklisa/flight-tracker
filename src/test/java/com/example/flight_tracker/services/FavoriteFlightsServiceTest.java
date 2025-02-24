@@ -3,12 +3,12 @@ package com.example.flight_tracker.services;
 import com.example.flight_tracker.domain.mongo.FavoriteFlight;
 import com.example.flight_tracker.dto.flight.FavoriteFlightDto;
 import com.example.flight_tracker.dto.flight.FlightDto;
+import com.example.flight_tracker.mapper.FavoriteFlightMapperImpl;
 import com.example.flight_tracker.repositories.mongo.FavoriteFlightsRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -23,7 +23,6 @@ import static org.mockito.Mockito.times;
 @ExtendWith(MockitoExtension.class)
 class FavoriteFlightsServiceTest {
 
-    @InjectMocks
     private FavoriteFlightsService favoriteFlightsService;
 
     @Mock
@@ -46,6 +45,8 @@ class FavoriteFlightsServiceTest {
 
     @BeforeEach
     void setUp() {
+        favoriteFlightsService = new FavoriteFlightsService(favoriteFlightsRepository, new FavoriteFlightMapperImpl());
+
         favoriteFlight = new FavoriteFlight();
         favoriteFlight.setEmail(EMAIL);
         favoriteFlight.setModel(MODEL);

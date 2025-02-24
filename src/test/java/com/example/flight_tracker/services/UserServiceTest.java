@@ -3,11 +3,12 @@ package com.example.flight_tracker.services;
 import com.example.flight_tracker.domain.mysql.User;
 import com.example.flight_tracker.dto.user.UserDto;
 import com.example.flight_tracker.exceptions.ResourceNotFoundException;
+import com.example.flight_tracker.mapper.UserMapperImpl;
 import com.example.flight_tracker.repositories.mysql.UserRepository;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -20,13 +21,17 @@ import static org.mockito.Mockito.times;
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
 
-    @InjectMocks
     private UserService userService;
 
     @Mock
     private UserRepository userRepository;
 
     private static final String EMAIL = "email@gmail.com";
+
+    @BeforeEach
+    void setUp() {
+        userService = new UserService(userRepository, new UserMapperImpl());
+    }
 
     @Test
     void findUserByEmail() {

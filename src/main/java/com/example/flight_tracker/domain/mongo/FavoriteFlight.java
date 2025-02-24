@@ -15,11 +15,23 @@ public class FavoriteFlight {
     private String model;
     private String flightNumber;
     private String depIata;
+    private String depName;
+    private String depCountry;
+    private String depCity;
     private String arrIata;
+    private String arrName;
+    private String arrCountry;
+    private String arrCity;
     private String depTime;
+    private String depTimeUtc;
     private String arrTime;
+    private String arrTimeUtc;
     private String depActual;
+    private String depActualUtc;
     private String arrActual;
+    private String arrActualUtc;
     private Integer duration;
+    private Integer depDelayed;
+    private Integer arrDelayed;
     private String status;
 }

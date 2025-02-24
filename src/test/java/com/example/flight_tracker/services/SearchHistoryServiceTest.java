@@ -3,12 +3,12 @@ package com.example.flight_tracker.services;
 import com.example.flight_tracker.domain.mongo.SearchHistory;
 import com.example.flight_tracker.dto.flight.FlightSearchRequest;
 import com.example.flight_tracker.dto.history.SearchHistoryDto;
+import com.example.flight_tracker.mapper.SearchHistoryMapperImpl;
 import com.example.flight_tracker.repositories.mongo.SearchHistoryRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -26,7 +26,6 @@ class SearchHistoryServiceTest {
     @Mock
     private SearchHistoryRepository searchHistoryRepository;
 
-    @InjectMocks
     private SearchHistoryService searchHistoryService;
 
     private static final String ID = "idstring";
@@ -40,6 +39,8 @@ class SearchHistoryServiceTest {
 
     @BeforeEach
     void setUp() {
+        searchHistoryService = new SearchHistoryService(searchHistoryRepository, new SearchHistoryMapperImpl());
+
         searchHistory = new SearchHistory();
         searchHistory.setEmail(EMAIL);
         searchHistory.setFlightNumber(FLIGHT_NUMBER);
