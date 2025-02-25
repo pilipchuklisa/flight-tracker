@@ -3,20 +3,17 @@ package com.example.flight_tracker.controllers.view;
 import com.example.flight_tracker.dto.flight.FlightDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Controller
 @RequestMapping("/flight-details")
 public class FlightController {
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
     public String showFlightDetailsPage(
             @RequestParam(value = "model", required = false) String model,
             @RequestParam(value = "flight_number", required = false) String flightNumber,

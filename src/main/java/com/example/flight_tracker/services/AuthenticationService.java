@@ -5,6 +5,7 @@ import com.example.flight_tracker.domain.mysql.User;
 import com.example.flight_tracker.dto.auth.AuthenticationRequest;
 import com.example.flight_tracker.dto.auth.AuthenticationResponse;
 import com.example.flight_tracker.dto.auth.RegisterRequest;
+import com.example.flight_tracker.dto.auth.RegisterResponse;
 import com.example.flight_tracker.exceptions.*;
 import com.example.flight_tracker.repositories.mysql.UserRepository;
 import jakarta.mail.MessagingException;
@@ -28,21 +29,21 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final MailService mailService;
 
-    public User register(RegisterRequest request) {
+    public RegisterResponse register(RegisterRequest request) {
         User user = new User();
-
         user.setName(request.getUsername());
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(Role.USER);
-
         user.setVerificationCode(generateVerificationCode());
         user.setVerificationCodeExpiresAt(LocalDateTime.now().plusMinutes(15));
         user.setEnable(false);
 
         sendVerificationEmail(user);
 
-        return userRepository.save(user);
+        User savedUser = userRepository.save(user);
+
+        return new RegisterResponse(savedUser.getEmail());
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {

@@ -1,9 +1,9 @@
 package com.example.flight_tracker.controllers.api;
 
-import com.example.flight_tracker.domain.mysql.User;
 import com.example.flight_tracker.dto.auth.AuthenticationRequest;
 import com.example.flight_tracker.dto.auth.AuthenticationResponse;
 import com.example.flight_tracker.dto.auth.RegisterRequest;
+import com.example.flight_tracker.dto.auth.RegisterResponse;
 import com.example.flight_tracker.services.AuthenticationService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,7 +20,7 @@ public class AuthenticationApiController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.OK)
-    public User register(@RequestBody RegisterRequest request) {
+    public RegisterResponse register(@RequestBody RegisterRequest request) {
         return authenticationService.register(request);
     }
 
@@ -40,7 +40,7 @@ public class AuthenticationApiController {
     }
 
     @PostMapping("/logout")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void logout(HttpServletResponse response) {
         Cookie cookie = new Cookie("jwt", null);
         cookie.setHttpOnly(true);
@@ -50,13 +50,13 @@ public class AuthenticationApiController {
     }
 
     @GetMapping("/verify")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void verify(@RequestParam String email, @RequestParam String code) {
         authenticationService.verifyUser(email, code);
     }
 
     @GetMapping("/resend")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void resendVerificationCode(@RequestParam String email) {
         authenticationService.resendVerificationCode(email);
     }
