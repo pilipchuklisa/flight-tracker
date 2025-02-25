@@ -39,6 +39,6 @@ public class FavoriteFlightsApiController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
 
-        favoriteFlightsService.saveFlight(info, email);
+        favoriteFlightsService.saveIfNotExist(info, email);
     }
 }

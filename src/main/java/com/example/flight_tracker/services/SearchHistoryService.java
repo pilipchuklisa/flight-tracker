@@ -33,10 +33,30 @@ public class SearchHistoryService {
         searchHistoryRepository.deleteAll();
     }
 
-    public SearchHistory save(FlightSearchRequest request, String email) {
+    public SearchHistory saveIfNotExist(FlightSearchRequest request, String email) {
         SearchHistory searchHistory = searchHistoryMapper.flightSearchToSearchHistory(request);
         searchHistory.setEmail(email);
 
-        return searchHistoryRepository.save(searchHistory);
+        if (!isExist(searchHistory)) {
+            return searchHistoryRepository.save(searchHistory);
+        }
+
+        return null;
+    }
+
+    private boolean isExist(SearchHistory searchHistory) {
+        List<SearchHistory> histories = searchHistoryRepository.findAllByEmail(searchHistory.getEmail());
+
+        if (histories.isEmpty()) {
+            return false;
+        }
+
+        for (SearchHistory history : histories) {
+            if (history.equals(searchHistory)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

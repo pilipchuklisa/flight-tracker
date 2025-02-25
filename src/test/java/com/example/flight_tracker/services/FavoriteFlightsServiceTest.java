@@ -82,7 +82,7 @@ class FavoriteFlightsServiceTest {
     }
 
     @Test
-    void saveFlight() {
+    void saveIfNotExistFlightNotExistTest() {
         FlightDto flightDto = new FlightDto();
         flightDto.setModel(MODEL);
         flightDto.setFlightNumber(FLIGHT_NUMBER);
@@ -97,12 +97,37 @@ class FavoriteFlightsServiceTest {
 
         favoriteFlight.setId(ID);
 
+        Mockito.when(favoriteFlightsRepository.findAllByEmail(anyString())).thenReturn(new ArrayList<>());
         Mockito.when(favoriteFlightsRepository.save(any())).thenReturn(favoriteFlight);
 
-        FavoriteFlight savedFavoriteFlight = favoriteFlightsService.saveFlight(flightDto, EMAIL);
+        FavoriteFlight savedFavoriteFlight = favoriteFlightsService.saveIfNotExist(flightDto, EMAIL);
 
         Assertions.assertSame(favoriteFlight.getId(), savedFavoriteFlight.getId());
         Assertions.assertSame(favoriteFlight.getEmail(), savedFavoriteFlight.getEmail());
         Mockito.verify(favoriteFlightsRepository, times(1)).save(any());
+    }
+
+    @Test
+    void saveIfNotExistFlightAlreadyExistTest() {
+        FlightDto flightDto = new FlightDto();
+        flightDto.setModel(MODEL);
+        flightDto.setFlightNumber(FLIGHT_NUMBER);
+        flightDto.setDepIata(DEP_IATA);
+        flightDto.setArrIata(ARR_IATA);
+        flightDto.setDepTime(DEP_TIME);
+        flightDto.setArrTime(ARR_TIME);
+        flightDto.setDepActual(DEP_ACTUAL);
+        flightDto.setArrActual(ARR_ACTUAL);
+        flightDto.setDuration(DURATION);
+        flightDto.setStatus(ON_TIME);
+
+        favoriteFlight.setId(ID);
+
+        Mockito.when(favoriteFlightsRepository.findAllByEmail(anyString())).thenReturn(List.of(favoriteFlight));
+
+        FavoriteFlight savedFavoriteFlight = favoriteFlightsService.saveIfNotExist(flightDto, EMAIL);
+
+        Assertions.assertNull(savedFavoriteFlight);
+        Mockito.verify(favoriteFlightsRepository, times(0)).save(any());
     }
 }

@@ -77,7 +77,7 @@ class SearchHistoryServiceTest {
     }
 
     @Test
-    void save() {
+    void saveIfNotExistHistoryNotExistTest() {
         FlightSearchRequest request = new FlightSearchRequest();
         request.setFlightNumber(FLIGHT_NUMBER);
         request.setDepIata(DEP_IATA);
@@ -86,12 +86,31 @@ class SearchHistoryServiceTest {
 
         searchHistory.setId(ID);
 
+        Mockito.when(searchHistoryRepository.findAllByEmail(anyString())).thenReturn(new ArrayList<>());
         Mockito.when(searchHistoryRepository.save(any())).thenReturn(searchHistory);
 
-        SearchHistory savedSearchHistory = searchHistoryService.save(request, EMAIL);
+        SearchHistory savedSearchHistory = searchHistoryService.saveIfNotExist(request, EMAIL);
 
         Assertions.assertSame(searchHistory.getId(), savedSearchHistory.getId());
         Assertions.assertSame(searchHistory.getEmail(), savedSearchHistory.getEmail());
         Mockito.verify(searchHistoryRepository, times(1)).save(any());
+    }
+
+    @Test
+    void saveIfNotExistHistoryAlreadyExistTest() {
+        FlightSearchRequest request = new FlightSearchRequest();
+        request.setFlightNumber(FLIGHT_NUMBER);
+        request.setDepIata(DEP_IATA);
+        request.setArrIata(ARR_IATA);
+        request.setDepTime(DEP_TIME);
+
+        searchHistory.setId(ID);
+
+        Mockito.when(searchHistoryRepository.findAllByEmail(anyString())).thenReturn(List.of(searchHistory));
+
+        SearchHistory savedSearchHistory = searchHistoryService.saveIfNotExist(request, EMAIL);
+
+        Assertions.assertNull(savedSearchHistory);
+        Mockito.verify(searchHistoryRepository, times(0)).save(any());
     }
 }

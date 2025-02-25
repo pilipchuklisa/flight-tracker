@@ -45,6 +45,6 @@ public class SearchHistoryApiController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
 
-        searchHistoryService.save(request, email);
+        searchHistoryService.saveIfNotExist(request, email);
     }
 }

@@ -17,8 +17,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
         const params = new URLSearchParams(new FormData(this)).toString();
 
-        console.log("/api/v1/flights?" + params);
-
         fetch(`/api/v1/flights?${params}`)
             .then(response => response.json())
             .then(data => {

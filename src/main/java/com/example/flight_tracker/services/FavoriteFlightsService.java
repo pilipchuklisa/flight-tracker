@@ -30,10 +30,30 @@ public class FavoriteFlightsService {
         favoriteFlightsRepository.deleteById(id);
     }
 
-    public FavoriteFlight saveFlight(FlightDto dto, String email) {
+    public FavoriteFlight saveIfNotExist(FlightDto dto, String email) {
         FavoriteFlight flight = favoriteFlightMapper.flightDtoToFavoriteFlight(dto);
         flight.setEmail(email);
 
-        return favoriteFlightsRepository.save(flight);
+        if (!isExist(flight)) {
+            return favoriteFlightsRepository.save(flight);
+        }
+
+        return null;
+    }
+
+    private boolean isExist(FavoriteFlight favoriteFlight) {
+        List<FavoriteFlight> flights = favoriteFlightsRepository.findAllByEmail(favoriteFlight.getEmail());
+
+        if (flights.isEmpty()) {
+            return false;
+        }
+
+        for (FavoriteFlight flight : flights) {
+            if (flight.equals(favoriteFlight)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
