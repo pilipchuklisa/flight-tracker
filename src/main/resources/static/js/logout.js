@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const logoutButton = document.querySelector("button[type='submit']");
+    const logoutButton = document.getElementById("logout-btn");
 
     if (logoutButton) {
         logoutButton.addEventListener("click", async function () {

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/component/flight-card.css">
+    <link rel="stylesheet" type="text/css" href="/css/flight/details.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+
+<nav class="navbar navbar-light header d-flex justify-content-between">
+    <a class="navbar-brand" href="/home">
+        <img src="/images/brand.svg" alt="">
+        Flight Tracker
+    </a>
+
+    <div>
+        <button class="btn-custom" onclick="location.href='/search'">
+            <img src="/images/search.svg" width="20" height="20" alt="Search">
+        </button>
+        <button class="btn-custom" onclick="location.href='/favorites'">
+            <img src="/images/favorites.svg" width="20" height="20" alt="Favorites">
+        </button>
+        <button class="btn-custom" onclick="location.href='/account'">
+            <img src="/images/account.svg" width="20" height="20" alt="Account">
+        </button>
+    </div>
+</nav>
+
+<div class="details-container">
+    <div class="details">
+
+        <div class="details-main-section">
+            <h2><span th:text="${flightDto.model}">Модель</span> (<span th:text="${flightDto.flightNumber}">Номер рейса</span>)</h2>
+            <p><span class="badge" th:text="${flightDto.status}">Статус</span></p>
+            <p><strong>Длительность полета:</strong> <span th:text="${flightDto.duration}"></span> минут</p>
+            <p><span th:text="${flightDto.depCountry}">Страна вылета</span> (<span th:text="${flightDto.depCity}">Город вылета</span>) →
+                <span th:text="${flightDto.arrCountry}">Страна прилета</span> (<span th:text="${flightDto.arrCity}">Город прилета</span>)</p>
+        </div>
+
+        <div class="details-section">
+            <h3><span th:text="${flightDto.depName}">Аэропорт вылета</span> (<span th:text="${flightDto.depIata}">IATA</span>)</h3>
+
+            <p>
+                <span th:if="${#strings.isEmpty(flightDto.depActualUtc)}">
+                    <span th:text="${flightDto.depTimeUtc}"></span>
+                </span>
+                <span th:unless="${#strings.isEmpty(flightDto.depActualUtc)}">
+                    <s th:text="${flightDto.depTimeUtc}"></s> <span th:text="${flightDto.depActualUtc}"></span>
+                </span>
+            </p>
+
+            <p>
+                <span th:if="${#strings.isEmpty(flightDto.depActual)}">
+                    <span th:text="${flightDto.depTime}"></span>
+                </span>
+                <span th:unless="${#strings.isEmpty(flightDto.depActual)}">
+                    <s th:text="${flightDto.depTime}"></s> <span th:text="${flightDto.depActual}"></span>
+                </span>
+            </p>
+
+            <p th:unless="${#strings.isEmpty(flightDto.depDelayed)}">
+                <strong>Задержка вылета:</strong> <span th:text="${flightDto.depDelayed}"></span> минут
+            </p>
+        </div>
+
+        <div class="details-section">
+            <h3><span th:text="${flightDto.arrName}">Аэропорт прилета</span> (<span th:text="${flightDto.arrIata}">IATA</span>)</h3>
+
+            <p>
+                <span th:if="${#strings.isEmpty(flightDto.arrActualUtc)}">
+                    <span th:text="${flightDto.arrTimeUtc}"></span>
+                </span>
+                <span th:unless="${#strings.isEmpty(flightDto.arrActualUtc)}">
+                    <s th:text="${flightDto.arrTimeUtc}"></s> <span th:text="${flightDto.arrActualUtc}"></span>
+                </span>
+            </p>
+
+            <p>
+                <span th:if="${#strings.isEmpty(flightDto.arrActual)}">
+                    <span th:text="${flightDto.arrTime}"></span>
+                </span>
+                <span th:unless="${#strings.isEmpty(flightDto.arrActual)}">
+                    <s th:text="${flightDto.arrTime}"></s> <span th:text="${flightDto.arrActual}"></span>
+                </span>
+            </p>
+
+            <p th:unless="${#strings.isEmpty(flightDto.arrDelayed)}">
+                <strong>Задержка посадки:</strong> <span th:text="${flightDto.arrDelayed}"></span> минут
+            </p>
+        </div>
+    </div>
+
+    <button class="btn btn-primary button" id="add-to-favorites">
+        Добавить в избранное
+    </button>
+</div>
+
+<script src="/js/details.js" defer></script>
+
+</body>
+</html>

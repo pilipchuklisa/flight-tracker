@@ -2,6 +2,18 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const urlParams = new URLSearchParams(window.location.search);
 
+    if (history.state && history.state.fromDetails) {
+        const savedResults = sessionStorage.getItem("lastSearchResults");
+
+        if (savedResults) {
+            displayFlights(JSON.parse(savedResults));
+        }
+
+        history.replaceState(null, "");
+    } else {
+        sessionStorage.removeItem("lastSearchResults");
+    }
+
     const flightNumber = urlParams.get("flight_number") || "";
     const depIata = urlParams.get("dep_iata") || "";
     const arrIata = urlParams.get("arr_iata") || "";
@@ -17,10 +29,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
         const params = new URLSearchParams(new FormData(this)).toString();
 
+        sessionStorage.removeItem("lastSearchResults");
+
         fetch(`/api/v1/flights?${params}`)
             .then(response => response.json())
             .then(data => {
                 saveSearchHistory(params);
+                sessionStorage.setItem("lastSearchResults", JSON.stringify(data));
                 displayFlights(data);
             })
             .catch(error => {
@@ -31,54 +46,72 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 function displayFlights(flights) {
-    const container = document.getElementById("flightsContainer");
-    container.innerHTML = '';
+    const container = document.getElementById("card-group");
+    container.innerHTML = "";
+
+    if (flights.length === 0) {
+        container.innerHTML = `<p class="no-results">Ничего не найдено</p>`;
+        return;
+    }
 
     flights.forEach(flight => {
-        const flightCard = document.createElement("div");
-        flightCard.classList.add("flight-card");
-
-        flightCard.innerHTML = `
-            <h3>${flight.model} (${flight.flight_number})</h3>
-            <p><strong>Откуда:</strong> ${flight.dep_iata} → <strong>Куда:</strong> ${flight.arr_iata}</p>
-            <p><strong>Время вылета:</strong> ${flight.dep_time}</p>
-            <p><strong>Время прилета:</strong> ${flight.arr_time}</p>
-            <p><strong>Фактический вылет:</strong> ${flight.dep_actual || '-'}</p>
-            <p><strong>Фактический прилет:</strong> ${flight.arr_actual || '-'}</p>
-            <p><strong>Продолжительность:</strong> ${flight.duration}</p>
-            <p><strong>Статус:</strong> ${flight.status}</p>
-            <button class="add-to-favorites-btn">Добавить в избранное</button>
+        const card = document.createElement("div");
+        card.classList.add("card");
+        card.setAttribute("data-id", flight.id);
+        card.innerHTML = `
+            <div class="card-body">
+                <h5 class="card-title">${flight.model} (${flight.flight_number})</h5>
+                <span class="badge">${flight.status}</span>
+                <p class="card-text">${flight.dep_iata} → ${flight.arr_iata}</p>
+                <div class="section-container">
+                    <div class="section">
+                        <p class="card-text"><strong>Время вылета:</strong> ${flight.dep_time}</p>
+                        <p class="card-text"><strong>Фактический вылет:</strong> ${flight.dep_actual || '-'}</p>
+                    </div>
+                    <div class="section">
+                        <p class="card-text"><strong>Время прилета:</strong> ${flight.arr_time}</p>
+                        <p class="card-text"><strong>Фактический прилет:</strong> ${flight.arr_actual || '-'}</p>
+                    </div>
+                </div>
+                <button class="btn btn-primary add-to-favorite-btn"
+                        data-flight="${encodeURIComponent(JSON.stringify(flight))}">
+                    Добавить в избранное
+                </button>
+            </div>
         `;
+        container.appendChild(card);
+    });
 
-        flightCard.addEventListener('click', function() {
-            viewFlightDetails(flight);
+    document.querySelectorAll(".card").forEach(card => {
+        card.addEventListener("click", function () {
+            const flightData = this.querySelector(".add-to-favorite-btn").getAttribute("data-flight");
+            try {
+                const flight = JSON.parse(decodeURIComponent(flightData));
+                viewFlightDetails(flight);
+            } catch (e) {
+                console.error("Ошибка парсинга данных рейса:", e);
+            }
         });
+    });
 
-        const button = flightCard.querySelector(".add-to-favorites-btn");
-        button.addEventListener('click', function() {
+    document.querySelectorAll(".add-to-favorite-btn").forEach(button => {
+        button.addEventListener("click", function (event) {
             event.stopPropagation();
-            addToFavorites(flight);
-        });
+            const flightData = this.getAttribute("data-flight");
 
-        container.appendChild(flightCard);
+            try {
+                const flight = JSON.parse(decodeURIComponent(flightData));
+                addToFavorites(flight);
+            } catch (e) {
+                console.error("Ошибка парсинга данных рейса:", e);
+            }
+        });
     });
 }
 
 function addToFavorites(data) {
-    let jsonData;
-    if (typeof data === 'string') {
-        try {
-            jsonData = JSON.parse(data);
-        } catch (e) {
-            console.error('Invalid JSON string:', e);
-            return;
-        }
-    } else {
-        jsonData = data;
-    }
-
-    const updateData = Object.keys(jsonData).reduce((acc, key) => {
-        acc[key] = jsonData[key] === null ? '' : jsonData[key];
+    const updateData = Object.keys(data).reduce((acc, key) => {
+        acc[key] = data[key] === null ? '' : data[key];
         return acc;
     }, {});
 
@@ -112,6 +145,11 @@ function viewFlightDetails(flight) {
         acc[key] = flight[key] === null ? '' : flight[key];
         return acc;
     }, {});
+
+    history.pushState({ fromDetails: true }, "");
+
+    sessionStorage.setItem("lastSearchResults", sessionStorage.getItem("lastSearchResults") || "[]");
+
     const params = new URLSearchParams(updatedFlight);
     window.location.href = `/flight-details?${params.toString()}`;
 }

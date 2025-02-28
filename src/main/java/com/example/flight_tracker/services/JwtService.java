@@ -1,6 +1,7 @@
 package com.example.flight_tracker.services;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -68,7 +69,11 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    private boolean isTokenExpired(String token) {
-        return extractClaim(token, Claims::getExpiration).before(new Date(System.currentTimeMillis()));
+    public boolean isTokenExpired(String token) {
+        try {
+            return extractClaim(token, Claims::getExpiration).before(new Date(System.currentTimeMillis()));
+        } catch (ExpiredJwtException e) {
+            return true;
+        }
     }
 }

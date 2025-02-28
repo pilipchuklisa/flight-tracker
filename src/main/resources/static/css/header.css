@@ -1,0 +1,33 @@
+.header-container {
+    background-color: #7484c3;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.search-btn {
+    margin: 30px;
+    width: 20px;
+    height: 20px;
+    background: url('/images/search.svg') no-repeat center;
+    background-size: cover;
+    border: none;
+    cursor: pointer;
+}
+.favorites-btn {
+    margin: 30px;
+    width: 20px;
+    height: 20px;
+    background: url('/images/favorites.svg') no-repeat center;
+    background-size: cover;
+    border: none;
+    cursor: pointer;
+}
+.account-btn {
+    margin: 30px;
+    width: 20px;
+    height: 20px;
+    background: url('/images/account.svg') no-repeat center;
+    background-size: cover;
+    border: none;
+    cursor: pointer;
+}

@@ -1,36 +1,84 @@
-document.addEventListener("DOMContentLoaded", function() {
-    checkHistory();
+document.addEventListener("DOMContentLoaded", async function () {
+    await loadSearchHistory();
 
-    document.getElementById("delete-all-history").addEventListener("click", function() {
-        fetch("/api/v1/histories", { method: "DELETE" })
-            .then(response => {
-                if (response.ok) {
-                    document.getElementById("history-list").innerHTML = "";
-                    checkHistory();
-                }
-            })
-            .catch(error => console.error("Ошибка при удалении истории:", error));
+    document.querySelector(".history-delete-all-btn").addEventListener("click", async function () {
+        try {
+            const response = await fetch("/api/v1/histories", { method: "DELETE" });
+            if (!response.ok) throw new Error("Ошибка удаления истории");
+
+            document.getElementById("history-container").innerHTML = "";
+            checkHistory();
+        } catch (error) {
+            console.error("Ошибка при удалении истории:", error);
+        }
     });
 });
 
-function removeFromHistory(id) {
-    event.stopPropagation();
-    console.log(id);
-    fetch(`/api/v1/histories/${id}`, { method: "DELETE" })
-        .then(response => {
-            if (response.ok) {
-                document.querySelector(`div[data-id="${id}"]`).remove();
-                checkHistory();
+async function loadSearchHistory() {
+    try {
+        const response = await fetch("/api/v1/histories");
+        if (!response.ok) throw new Error("Ошибка загрузки истории поиска");
+
+        const data = await response.json();
+        displayHistory(data);
+    } catch (error) {
+        console.error("Ошибка при загрузке истории поиска:", error);
+    }
+}
+
+function displayHistory(histories) {
+    const container = document.getElementById("history-container");
+    container.innerHTML = "";
+
+    histories.forEach(history => {
+        const card = document.createElement("div");
+        card.classList.add("card");
+        card.setAttribute("data-id", history.id);
+        card.setAttribute("data-search-history", JSON.stringify(history));
+
+        card.innerHTML = `
+            <div class="card-body">
+                <p>${history.dep_iata} → ${history.arr_iata}</p>
+                <p><strong>Номер рейса:</strong> ${history.flight_number}</p>
+                <p><strong>Дата:</strong> ${history.dep_time}</p>
+                <button class="btn btn-delete history-delete-btn"
+                        onclick="event.stopPropagation(); removeFromHistory('${history.id}')">
+                    Удалить
+                </button>
+            </div>
+        `;
+
+        card.addEventListener("click", function () {
+            const historyData = this.getAttribute("data-search-history");
+            try {
+                const history = JSON.parse(historyData);
+                redirectToSearch(history);
+            } catch (e) {
+                console.error("Ошибка парсинга данных рейса:", e);
             }
-        })
-        .catch(error => console.error("Ошибка при удалении элемента истории:", error));
+        });
+        container.appendChild(card);
+    });
+
+    checkHistory();
+}
+
+async function removeFromHistory(id) {
+    try {
+        const response = await fetch(`/api/v1/histories/${id}`, { method: "DELETE" });
+        if (!response.ok) throw new Error("Ошибка удаления записи");
+
+        document.querySelector(`.card[data-id="${id}"]`)?.remove();
+        checkHistory();
+    } catch (error) {
+        console.error("Ошибка при удалении элемента истории:", error);
+    }
 }
 
 function checkHistory() {
-    let historyContainer = document.getElementById("history-container");
-    let historyList = document.getElementById("history-list");
-    let noHistoryMessage = document.getElementById("no-history");
-    let deleteAllButton = document.getElementById("delete-all-history");
+    const historyList = document.getElementById("history-container");
+    const noHistoryMessage = document.getElementById("no-history");
+    const deleteAllButton = document.querySelector(".history-delete-all-btn");
 
     if (historyList.children.length === 0) {
         noHistoryMessage.style.display = "block";
@@ -41,18 +89,7 @@ function checkHistory() {
     }
 }
 
-function redirectToSearch(card) {
-    const flightNumber = card.getAttribute("data-flight-number");
-    const depIata = card.getAttribute("data-dep-iata");
-    const arrIata = card.getAttribute("data-arr-iata");
-    const depTime = card.getAttribute("data-dep-time");
-
-    const params = new URLSearchParams({
-        flight_number: flightNumber || '',
-        dep_iata: depIata || '',
-        arr_iata: arrIata || '',
-        dep_time: depTime || ''
-    });
-
+function redirectToSearch(history) {
+    const params = new URLSearchParams(history);
     window.location.href = `/search?${params.toString()}`;
 }

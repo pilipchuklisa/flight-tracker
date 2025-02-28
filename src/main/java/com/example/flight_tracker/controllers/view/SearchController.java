@@ -14,6 +14,6 @@ public class SearchController {
                                 @RequestParam(name = "dep_iata", required = false) String depIata,
                                 @RequestParam(name = "arr_iata", required = false) String arrIata,
                                 @RequestParam(name = "dep_time", required = false) String depTime) {
-        return "flights/search";
+        return "flight/search";
     }
 }

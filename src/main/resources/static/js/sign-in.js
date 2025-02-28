@@ -23,9 +23,6 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .then(data => {
             console.log("Аутентификация успешна:", data);
-
-            localStorage.setItem("token", data.token);
-
             window.location.href = "/home";
         })
         .catch(error => {

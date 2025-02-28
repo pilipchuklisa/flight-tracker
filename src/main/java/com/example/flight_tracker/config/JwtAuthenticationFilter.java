@@ -38,13 +38,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 if ("jwt".equals(cookie.getName())) {
 
                     String token = cookie.getValue();
-                    String email = jwtService.extractUsername(token);
 
-                    if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                        UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+                    if (!jwtService.isTokenExpired(token)) {
+                        String email = jwtService.extractUsername(token);
 
-                        if (jwtService.isTokenValid(token, userDetails)) {
-                            authenticate(userDetails, request);
+                        if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                            UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+
+                            if (jwtService.isTokenValid(token, userDetails)) {
+                                authenticate(userDetails, request);
+                            }
                         }
                     }
                 }

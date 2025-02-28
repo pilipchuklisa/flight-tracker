@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Поиск авиарейсов</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/flight/search.css">
+    <link rel="stylesheet" type="text/css" href="/css/component/card.css">
+    <link rel="stylesheet" type="text/css" href="/css/component/flight-card.css">
+</head>
+<body>
+
+<nav class="navbar navbar-light header d-flex justify-content-between">
+    <a class="navbar-brand" href="/home">
+        <img src="/images/brand.svg" alt="">
+        Flight Tracker
+    </a>
+
+    <div>
+        <button class="btn-custom" onclick="location.href='/search'">
+            <img src="/images/search.svg" width="20" height="20" alt="Search">
+        </button>
+        <button class="btn-custom" onclick="location.href='/favorites'">
+            <img src="/images/favorites.svg" width="20" height="20" alt="Favorites">
+        </button>
+        <button class="btn-custom" onclick="location.href='/account'">
+            <img src="/images/account.svg" width="20" height="20" alt="Account">
+        </button>
+    </div>
+</nav>
+
+<div class="search-container">
+    <form action="=/api/v1/flights" method="get" id="searchForm">
+        <div class="search-input-group">
+            <label for="flightNumber">Номер рейса</label>
+            <input type="text" id="flightNumber" name="flight_number" placeholder="Введите номер рейса">
+        </div>
+        <div class="search-input-group">
+            <label for="depIata">Аэропорт вылета (IATA)</label>
+            <input type="text" id="depIata" name="dep_iata" placeholder="Введите код аэропорта вылета" required>
+        </div>
+        <div class="search-input-group">
+            <label for="arrIata">Аэропорт прилета (IATA)</label>
+            <input type="text" id="arrIata" name="arr_iata" placeholder="Введите код аэропорта прилета" required>
+        </div>
+        <div class="search-input-group">
+            <label for="depTime">Время вылета</label>
+            <input type="datetime-local" id="depTime" name="dep_time" pattern="yyyy-MM-dd HH:mm">
+        </div>
+
+        <button type="submit" class="search-btn">Поиск</button>
+    </form>
+</div>
+
+<div class="card-container" id="card-group"></div>
+
+<script src="/js/search.js" defer></script>
+
+</body>
+</html>

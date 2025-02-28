@@ -2,7 +2,6 @@ package com.example.flight_tracker.controllers.view;
 
 import com.example.flight_tracker.dto.flight.FlightDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -64,9 +63,7 @@ public class FlightController {
         flightDto.setStatus(status);
 
         uiModel.addAttribute("flightDto", flightDto);
-        uiModel.addAttribute("flightJson", new ObjectMapper().writeValueAsString(flightDto));
-
-        return "flights/details";
+        return "flight/details";
     }
 }
 
