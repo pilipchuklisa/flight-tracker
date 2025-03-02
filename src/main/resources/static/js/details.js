@@ -2,13 +2,27 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const params = new URLSearchParams(window.location.search);
 
-    document.getElementById("add-to-favorites").addEventListener("click", function() {
-        let data = {};
-        params.forEach((value, key) => {
-            data[key] = value;
+    const id = document.getElementById("button-container").getAttribute("data-id");
+
+    if (id === null) {
+        document.getElementById("button-container").innerHTML =
+            `<button class="btn btn-primary button" id="add-to-favorites">Добавить в избранное</button>`;
+
+        document.getElementById("add-to-favorites").addEventListener("click", function() {
+            let data = {};
+            params.forEach((value, key) => {
+                data[key] = value;
+            });
+            addToFavorites(data);
         });
-        addToFavorites(data);
-    });
+    } else {
+        document.getElementById("button-container").innerHTML =
+            `<button class="btn btn-delete button" id="delete">Удалить</button>`;
+
+        document.getElementById("delete").addEventListener("click", function() {
+            removeFromFavorites(id);
+        });
+    }
 });
 
 function addToFavorites(data) {
@@ -39,5 +53,30 @@ function addToFavorites(data) {
     .catch(error => {
         console.error('Ошибка при выполнении запроса:', error);
         alert('Произошла ошибка при добавлении в избранное!');
+    });
+}
+
+function removeFromFavorites(id) {
+    fetch(`/api/v1/favorites/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (response.status === 401) {
+             window.location.href = '/account/sign-in';
+             return;
+        }
+        if (response.ok) {
+            location.href = "/favorites";
+        } else {
+            console.error('Ошибка при удаление:', response.statusText);
+            alert('Произошла ошибка при удалении!');
+        }
+    })
+    .catch(error => {
+        console.error('Ошибка при удаление:', response.statusText);
+        alert('Произошла ошибка при удалении!');
     });
 }

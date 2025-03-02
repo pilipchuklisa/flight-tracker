@@ -3,6 +3,7 @@ package com.example.flight_tracker.services;
 import com.example.flight_tracker.domain.mongo.FavoriteFlight;
 import com.example.flight_tracker.dto.flight.FavoriteFlightDto;
 import com.example.flight_tracker.dto.flight.FlightDto;
+import com.example.flight_tracker.exceptions.ResourceNotFoundException;
 import com.example.flight_tracker.mapper.FavoriteFlightMapper;
 import com.example.flight_tracker.repositories.mongo.FavoriteFlightsRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,13 @@ public class FavoriteFlightsService {
         return flights.stream()
                 .map(favoriteFlightMapper::favoriteFlightToFavoriteFlightDto)
                 .collect(Collectors.toList());
+    }
+
+    public FavoriteFlightDto getFlightById(String id) {
+        FavoriteFlight flight = favoriteFlightsRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Resource not found."));
+
+        return favoriteFlightMapper.favoriteFlightToFavoriteFlightDto(flight);
     }
 
     public void deleteFlightById(String id) {

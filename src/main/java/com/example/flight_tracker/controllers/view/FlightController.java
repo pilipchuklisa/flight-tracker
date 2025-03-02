@@ -1,16 +1,21 @@
 package com.example.flight_tracker.controllers.view;
 
 import com.example.flight_tracker.dto.flight.FlightDto;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.example.flight_tracker.services.FavoriteFlightsService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/flight-details")
+@RequiredArgsConstructor
 public class FlightController {
+
+    private final FavoriteFlightsService favoriteFlightsService;
 
     @GetMapping
     public String showFlightDetailsPage(
@@ -37,7 +42,7 @@ public class FlightController {
             @RequestParam(value = "arr_delayed", required = false) Integer arrDelayed,
             @RequestParam(value = "status", required = false) String status,
             Model uiModel
-    ) throws JsonProcessingException {
+    ) {
         FlightDto flightDto = new FlightDto();
         flightDto.setModel(model);
         flightDto.setFlightNumber(flightNumber);
@@ -62,7 +67,14 @@ public class FlightController {
         flightDto.setArrDelayed(arrDelayed);
         flightDto.setStatus(status);
 
-        uiModel.addAttribute("flightDto", flightDto);
+        uiModel.addAttribute("flight", flightDto);
+        return "flight/details";
+    }
+
+    @GetMapping("/{id}")
+    public String showFlightDetailsPage(@PathVariable String id, Model model) {
+        model.addAttribute("flight", favoriteFlightsService.getFlightById(id));
+        model.addAttribute("id", id);
         return "flight/details";
     }
 }

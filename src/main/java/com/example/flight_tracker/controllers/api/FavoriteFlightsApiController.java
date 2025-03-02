@@ -30,7 +30,7 @@ public class FavoriteFlightsApiController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteFlightById(@PathVariable String id) {
-       favoriteFlightsService.deleteFlightById(id);
+        favoriteFlightsService.deleteFlightById(id);
     }
 
     @PostMapping

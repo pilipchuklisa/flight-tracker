@@ -147,7 +147,6 @@ function viewFlightDetails(flight) {
     }, {});
 
     history.pushState({ fromDetails: true }, "");
-
     sessionStorage.setItem("lastSearchResults", sessionStorage.getItem("lastSearchResults") || "[]");
 
     const params = new URLSearchParams(updatedFlight);

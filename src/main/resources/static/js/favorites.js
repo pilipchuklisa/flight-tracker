@@ -63,13 +63,8 @@ function displayFlights(flights) {
     });
 }
 
-function viewFlightDetails(flight) {
-    const updatedFlight = Object.keys(flight).reduce((acc, key) => {
-        acc[key] = flight[key] === null ? '' : flight[key];
-        return acc;
-    }, {});
-    const params = new URLSearchParams(updatedFlight);
-    window.location.href = `/flight-details?${params.toString()}`;
+function viewFlightDetails(flight) {;
+    window.location.href = `/flight-details/${flight.id}`;
 }
 
 async function removeFromFavorites(id) {
