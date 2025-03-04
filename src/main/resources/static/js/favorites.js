@@ -63,8 +63,22 @@ function displayFlights(flights) {
     });
 }
 
-function viewFlightDetails(flight) {;
-    window.location.href = `/flight-details/${flight.id}`;
+function viewFlightDetails(flight) {
+    const params = new URLSearchParams(flight);
+    window.location.href = `/flight-details?${params.toString()}`;
+}
+
+function viewFlightDetails(flight) {
+    const updatedFlight = Object.keys(flight).reduce((acc, key) => {
+        acc[key] = flight[key] === null ? '' : flight[key];
+        return acc;
+    }, {});
+
+    history.pushState({ fromDetails: true }, "");
+    sessionStorage.setItem("lastSearchResults", sessionStorage.getItem("lastSearchResults") || "[]");
+
+    const params = new URLSearchParams(updatedFlight);
+    window.location.href = `/flight-details?${params.toString()}`;
 }
 
 async function removeFromFavorites(id) {

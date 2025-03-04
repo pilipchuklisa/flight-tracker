@@ -20,6 +20,7 @@ public class FlightService {
 
     private final FlightInfoService flightInfoService;
     private final FlightScheduleService flightScheduleService;
+    private final AirportTimeZoneService airportTimeZoneService;
     private final FlightMapper flightMapper;
 
     public List<FlightDto> searchFlights(String flightNumber, String depIata, String arrIata, String depTime) {
@@ -50,6 +51,8 @@ public class FlightService {
                     flightDto.setArrActual(scheduleResponse.getArrActual());
                     flightDto.setDuration(scheduleResponse.getDuration());
                     flightDto.setStatus(scheduleResponse.getStatus());
+                    flightDto.setDepTimeZone(airportTimeZoneService.getTimeZone(scheduleResponse.getDepIata()));
+                    flightDto.setArrTimeZone(airportTimeZoneService.getTimeZone(scheduleResponse.getArrIata()));
 
                     String model = getModel(scheduleResponse, infoResponses);
                     flightDto.setModel(model);

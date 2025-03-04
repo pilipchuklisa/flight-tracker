@@ -19,6 +19,9 @@ public class FavoriteFlightDto {
     @JsonProperty("dep_name")
     private String depName;
 
+    @JsonProperty("dep_time_zone")
+    private String depTimeZone;
+
     @JsonProperty("dep_country")
     private String depCountry;
 
@@ -30,6 +33,9 @@ public class FavoriteFlightDto {
 
     @JsonProperty("arr_name")
     private String arrName;
+
+    @JsonProperty("arr_time_zone")
+    private String arrTimeZone;
 
     @JsonProperty("arr_country")
     private String arrCountry;

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ru">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -35,71 +35,36 @@
 
 <div class="details-container">
     <div class="details">
-
         <div class="details-main-section">
-            <h2><span th:text="${flight.model}">Модель</span> (<span th:text="${flight.flightNumber}">Номер рейса</span>)</h2>
-            <p><span class="badge" th:text="${flight.status}">Статус</span></p>
-            <p><strong>Длительность полета:</strong> <span th:text="${flight.duration}"></span> минут</p>
-            <p><span th:text="${flight.depCountry}">Страна вылета</span> (<span th:text="${flight.depCity}">Город вылета</span>) →
-                <span th:text="${flight.arrCountry}">Страна прилета</span> (<span th:text="${flight.arrCity}">Город прилета</span>)</p>
-        </div>
-
-        <div class="details-section">
-            <h3><span th:text="${flight.depName}">Аэропорт вылета</span> (<span th:text="${flight.depIata}">IATA</span>)</h3>
-
+            <h2><span id="flight-model">Модель</span> (<span id="flight-number">Номер рейса</span>)</h2>
+            <p><span class="badge" id="flight-status">Статус</span></p>
+            <p><strong>Длительность полета:</strong> <span id="flight-duration"></span> минут</p>
             <p>
-                <span th:if="${#strings.isEmpty(flight.depActualUtc)}">
-                    <span th:text="${flight.depTimeUtc}"></span>
-                </span>
-                <span th:unless="${#strings.isEmpty(flight.depActualUtc)}">
-                    <s th:text="${flight.depTimeUtc}"></s> <span th:text="${flight.depActualUtc}"></span>
-                </span>
-            </p>
-
-            <p>
-                <span th:if="${#strings.isEmpty(flight.depActual)}">
-                    <span th:text="${flight.depTime}"></span>
-                </span>
-                <span th:unless="${#strings.isEmpty(flight.depActual)}">
-                    <s th:text="${flight.depTime}"></s> <span th:text="${flight.depActual}"></span>
-                </span>
-            </p>
-
-            <p th:unless="${#strings.isEmpty(flight.depDelayed)}">
-                <strong>Задержка вылета:</strong> <span th:text="${flight.depDelayed}"></span> минут
+                <span id="dep-country">Страна вылета</span> (<span id="dep-city">Город вылета</span>) →
+                <span id="arr-country">Страна прилета</span> (<span id="arr-city">Город прилета</span>)
             </p>
         </div>
 
         <div class="details-section">
-            <h3><span th:text="${flight.arrName}">Аэропорт прилета</span> (<span th:text="${flight.arrIata}">IATA</span>)</h3>
+            <h3><span id="dep-name">Аэропорт вылета</span> (<span id="dep-iata">IATA</span>)</h3>
+            <p id="dep-time-local"></p>
+            <p id="dep-time"></p>
+            <p id="dep-delay"></p>
+        </div>
 
-            <p>
-                <span th:if="${#strings.isEmpty(flight.arrActualUtc)}">
-                    <span th:text="${flight.arrTimeUtc}"></span>
-                </span>
-                <span th:unless="${#strings.isEmpty(flight.arrActualUtc)}">
-                    <s th:text="${flight.arrTimeUtc}"></s> <span th:text="${flight.arrActualUtc}"></span>
-                </span>
-            </p>
-
-            <p>
-                <span th:if="${#strings.isEmpty(flight.arrActual)}">
-                    <span th:text="${flight.arrTime}"></span>
-                </span>
-                <span th:unless="${#strings.isEmpty(flight.arrActual)}">
-                    <s th:text="${flight.arrTime}"></s> <span th:text="${flight.arrActual}"></span>
-                </span>
-            </p>
-
-            <p th:unless="${#strings.isEmpty(flight.arrDelayed)}">
-                <strong>Задержка посадки:</strong> <span th:text="${flight.arrDelayed}"></span> минут
-            </p>
+        <div class="details-section">
+            <h3><span id="arr-name">Аэропорт прилета</span> (<span id="arr-iata">IATA</span>)</h3>
+            <p id="arr-time-local"></p>
+            <p id="arr-time"></p>
+            <p id="arr-delay"></p>
         </div>
     </div>
 
-    <div id="button-container" th:data-id="${id}"></div>
+    <div id="button-container"></div>
 </div>
 
+<script src="/js/libraries/moment.js"></script>
+<script src="/js/libraries/moment-timezone-with-data.js"></script>
 <script src="/js/details.js" defer></script>
 
 </body>

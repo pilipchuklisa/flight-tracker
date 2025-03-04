@@ -26,6 +26,7 @@ public class Bootstrap implements CommandLineRunner {
 
         favoriteFlightsRepository.deleteAll();
         searchHistoryRepository.deleteAll();
+        userRepository.deleteAll();
 
         FavoriteFlight favoriteFlight1 = new FavoriteFlight();
         favoriteFlight1.setEmail("email@gmail.com");
@@ -39,12 +40,14 @@ public class Bootstrap implements CommandLineRunner {
         favoriteFlight1.setArrCity("Берлин");
         favoriteFlight1.setDepName("Шереметьево");
         favoriteFlight1.setDepIata("SVO");
-        favoriteFlight1.setDepTimeUtc("2025-02-28T9:00");
-        favoriteFlight1.setDepTime("2025-02-28T012:00");
+        favoriteFlight1.setDepTimeUtc("2025-02-28T09:00:00Z");
+        favoriteFlight1.setDepTime("2025-02-28T12:00");
         favoriteFlight1.setArrName("Тегель");
         favoriteFlight1.setArrIata("TXL");
         favoriteFlight1.setArrTime("2025-02-28T14:00");
-        favoriteFlight1.setArrTimeUtc("2025-02-28T11:00");
+        favoriteFlight1.setArrTimeUtc("2025-02-28T11:00:00Z");
+        favoriteFlight1.setDepTimeZone("Europe/Moscow");
+        favoriteFlight1.setArrTimeZone("Europe/Berlin");
 
         FavoriteFlight favoriteFlight2 = new FavoriteFlight();
         favoriteFlight2.setEmail("email@gmail.com");
@@ -56,20 +59,22 @@ public class Bootstrap implements CommandLineRunner {
         favoriteFlight2.setDepCity("Нью-Йорк");
         favoriteFlight2.setArrCountry("Франция");
         favoriteFlight2.setArrCity("Париж");
-        favoriteFlight2.setDepName("JFK");
+        favoriteFlight2.setDepName("Международный аэропорт имени Джона Кеннеди");
         favoriteFlight2.setDepIata("JFK");
-        favoriteFlight2.setDepTimeUtc("2025-02-28T15:30");
+        favoriteFlight2.setDepTimeUtc("2025-02-28T15:30:00Z");
         favoriteFlight2.setDepTime("2025-02-28T10:30");
         favoriteFlight2.setArrName("Шарль-де-Голль");
         favoriteFlight2.setArrIata("CDG");
-        favoriteFlight2.setArrTimeUtc("2025-02-28T23:00");
+        favoriteFlight2.setArrTimeUtc("2025-02-28T23:00:00Z");
         favoriteFlight2.setArrTime("2025-02-28T18:00");
-        favoriteFlight2.setDepActualUtc("2025-02-28T15:50");
+        favoriteFlight2.setDepActualUtc("2025-02-28T15:50:00Z");
         favoriteFlight2.setDepActual("2025-02-28T10:50");
-        favoriteFlight2.setArrActualUtc("2025-02-28T23:20");
+        favoriteFlight2.setArrActualUtc("2025-02-28T23:20:00Z");
         favoriteFlight2.setArrActual("2025-02-28T18:20");
         favoriteFlight2.setDepDelayed(20);
         favoriteFlight2.setArrDelayed(20);
+        favoriteFlight2.setDepTimeZone("America/New_York");
+        favoriteFlight2.setArrTimeZone("Europe/Paris");
 
         SearchHistory searchHistory = new SearchHistory();
         searchHistory.setEmail("email@gmail.com");

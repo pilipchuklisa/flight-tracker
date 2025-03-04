@@ -18,10 +18,12 @@ public class FavoriteFlight {
     private String flightNumber;
     private String depIata;
     private String depName;
+    private String depTimeZone;
     private String depCountry;
     private String depCity;
     private String arrIata;
     private String arrName;
+    private String arrTimeZone;
     private String arrCountry;
     private String arrCity;
     private String depTime;
