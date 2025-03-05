@@ -7,12 +7,17 @@ import com.example.flight_tracker.dto.auth.RegisterResponse;
 import com.example.flight_tracker.services.AuthenticationService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
+@Validated
 @RequiredArgsConstructor
 public class AuthenticationApiController {
 
@@ -20,13 +25,13 @@ public class AuthenticationApiController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.OK)
-    public RegisterResponse register(@RequestBody RegisterRequest request) {
+    public RegisterResponse register(@Valid @RequestBody RegisterRequest request) {
         return authenticationService.register(request);
     }
 
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
-    public AuthenticationResponse authenticate(@RequestBody AuthenticationRequest request,
+    public AuthenticationResponse authenticate(@Valid @RequestBody AuthenticationRequest request,
                                                HttpServletResponse servletResponse) {
         AuthenticationResponse response = authenticationService.authenticate(request);
 
@@ -51,13 +56,24 @@ public class AuthenticationApiController {
 
     @GetMapping("/verify")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void verify(@RequestParam String email, @RequestParam String code) {
+    public void verify(
+            @RequestParam(name = "email")
+            @NotBlank(message = "user.email.not-blank")
+            @Email(message = "user.email.not-valid")
+            String email,
+            @RequestParam(name = "verification_code")
+            @NotBlank(message = "user.verification-code.not-blank")
+            String code) {
         authenticationService.verifyUser(email, code);
     }
 
     @GetMapping("/resend")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void resendVerificationCode(@RequestParam String email) {
+    public void resendVerificationCode(
+            @RequestParam(name = "email")
+            @NotBlank(message = "user.email.not-blank")
+            @Email(message = "user.email.not-valid")
+            String email) {
         authenticationService.resendVerificationCode(email);
     }
 }

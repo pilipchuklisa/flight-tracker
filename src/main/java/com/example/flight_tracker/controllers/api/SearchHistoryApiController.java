@@ -3,6 +3,7 @@ package com.example.flight_tracker.controllers.api;
 import com.example.flight_tracker.dto.flight.FlightSearchRequest;
 import com.example.flight_tracker.dto.history.SearchHistoryDto;
 import com.example.flight_tracker.services.SearchHistoryService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -41,7 +42,7 @@ public class SearchHistoryApiController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void createSearchHistory(@RequestBody FlightSearchRequest request) {
+    public void createSearchHistory(@Valid @RequestBody FlightSearchRequest request) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
 

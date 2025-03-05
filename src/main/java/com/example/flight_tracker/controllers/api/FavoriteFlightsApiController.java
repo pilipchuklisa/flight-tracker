@@ -3,6 +3,7 @@ package com.example.flight_tracker.controllers.api;
 import com.example.flight_tracker.dto.flight.FavoriteFlightDto;
 import com.example.flight_tracker.dto.flight.FlightDto;
 import com.example.flight_tracker.services.FavoriteFlightsService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -35,7 +36,7 @@ public class FavoriteFlightsApiController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void createFlight(@RequestBody FlightDto info) {
+    public void createFlight(@Valid @RequestBody FlightDto info) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
 
